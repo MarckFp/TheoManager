@@ -13,7 +13,7 @@
 </script>
 
 <div class="hero bg-base-200 min-h-screen relative">
-  <div class="hero-content text-center">
+  <div class="hero-content text-center pb-20">
     <div class="max-w-lg">
       {#if stage === 1}
         <h1 class="text-5xl font-bold">TheoManager</h1>
