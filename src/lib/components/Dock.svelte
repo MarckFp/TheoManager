@@ -1,54 +1,47 @@
 <script lang="ts">
-  import { Icon, Home, Cog6Tooth, User, Briefcase, Squares2x2 } from "svelte-hero-icons"
+  import { Icon, Home, User, Briefcase, Squares2x2, BookOpen } from "svelte-hero-icons"
   import { page } from '$app/state'
-  import { afterNavigate, goto } from '$app/navigation';
-
-  let activeMenu = "home";
-  function updateActiveMenu() {
-    let menu = page.url.pathname.split("/");
-    activeMenu = menu[2] ?? "home";
-  }
-
-  updateActiveMenu();
-
-  afterNavigate(() => {
-    updateActiveMenu();
-  });
 </script>
 
-<div class="dock dock-xl text-center">
+<div class="dock dock-xl text-center" id="dock-menu">
     <a
       href='/app/publishers'
-      class={activeMenu === 'publishers' ? 'dock-active' : ''}>
+      class={page.url.pathname === '/app/publishers' ? 'dock-active' : ''}>
       <Icon src="{User}" outline size="24" />
       <span class="dock-label">Publishers</span>
     </a>
     
     <a
       href='/app/meetings'
-      class={activeMenu === 'meetings' ? 'dock-active' : ''}>
-      <Icon src="{Briefcase}" outline size="24" />
+      class={page.url.pathname === '/app/meetings' ? 'dock-active' : ''}>
+      <Icon src="{BookOpen}" outline size="24" />
       <span class="dock-label">Meetings</span>
   </a>
 
     <a
       href='/app'
-      class={activeMenu === 'home' ? 'dock-active' : ''}>
+      class={page.url.pathname === '/app' ? 'dock-active' : ''}>
       <Icon src="{Squares2x2}" outline size="24" />
       <span class="dock-label">Home</span>
     </a>
 
     <a
       href='/app/kingdom-hall'
-      class={activeMenu === 'kingdom-hall' ? 'dock-active' : ''}>
+      class={page.url.pathname === '/app/kingdom-hall' ? 'dock-active' : ''}>
       <Icon src="{Home}" outline size="24" />
       <span class="dock-label">Kingdom Hall</span>
     </a>
 
     <a
-      href='/app/settings'
-      class={activeMenu === 'settings' ? 'dock-active' : ''}>
-      <Icon src="{Cog6Tooth}" outline size="24" />
-      <span class="dock-label">Settings</span>
+      href='/app/preaching'
+      class={page.url.pathname === '/app/preaching' ? 'dock-active' : ''}>
+      <Icon src="{Briefcase}" outline size="24" />
+      <span class="dock-label">Preaching</span>
     </a>
 </div>
+
+<style>
+  #dock-menu {
+    view-transition-name: dock-menu;
+  }
+</style>
