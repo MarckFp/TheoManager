@@ -127,7 +127,7 @@ jobs:
           if [[ "${{ matrix.name }}" == "Android 🤖" ]]; then
             sdkmanager "ndk;$NDK_VERSION"
             echo "NDK_HOME=$ANDROID_SDK_ROOT/ndk/$NDK_VERSION" >> $GITHUB_ENV
-            NDK_HOME=$ANDROID_SDK_ROOT/ndk/$NDK_VERSION
+            export NDK_HOME="$ANDROID_SDK_ROOT/ndk/$NDK_VERSION"
             bun run tauri android init --ci
           fi
 
