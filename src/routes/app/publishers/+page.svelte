@@ -1,6 +1,5 @@
 <script lang="ts">
     import { Icon, Plus, Pencil, Trash, MagnifyingGlass } from "svelte-hero-icons"
-    import isMobile from '$lib/utils/mobile';
 </script>
 
 <div class="grid grid-cols-1 gap-4 p-2">
@@ -13,34 +12,34 @@
         <fieldset class="fieldset collapse-content">
             <label class="fieldset-label" for="appointment">Appointment</label>
             <div class="filter">
-                <input class="btn filter-reset" type="radio" name="appointment" aria-label="All"/>
-                <input class="btn" type="radio" name="appointment" aria-label="Elder"/>
-                <input class="btn" type="radio" name="appointment" aria-label="Ministerial servant"/>
-                <input class="btn" type="radio" name="appointment" aria-label="Not appointed"/>
+                <input class="btn filter-reset" type="radio" id="appointment" aria-label="All"/>
+                <input class="btn" type="radio" id="appointment" aria-label="Elder"/>
+                <input class="btn" type="radio" id="appointment" aria-label="Ministerial servant"/>
+                <input class="btn" type="radio" id="appointment" aria-label="Not appointed"/>
             </div>
 
             <label class="fieldset-label" for="publisher-type">Publisher Type</label>
             <div class="filter">
-                <input class="btn filter-reset" type="radio" name="publisher-type" aria-label="All"/>
-                <input class="btn" type="radio" name="publisher-type" aria-label="Baptized"/>
-                <input class="btn" type="radio" name="publisher-type" aria-label="Continuous Auxiliary Pioneer"/>
-                <input class="btn" type="radio" name="publisher-type" aria-label="Regular Pioneer"/>
-                <input class="btn" type="radio" name="publisher-type" aria-label="Special Pioneer"/>
-                <input class="btn" type="radio" name="publisher-type" aria-label="Unbaptized"/>
+                <input class="btn filter-reset" type="radio" id="publisher-type" aria-label="All"/>
+                <input class="btn" type="radio" id="publisher-type" aria-label="Baptized"/>
+                <input class="btn" type="radio" id="publisher-type" aria-label="Continuous Auxiliary Pioneer"/>
+                <input class="btn" type="radio" id="publisher-type" aria-label="Regular Pioneer"/>
+                <input class="btn" type="radio" id="publisher-type" aria-label="Special Pioneer"/>
+                <input class="btn" type="radio" id="publisher-type" aria-label="Unbaptized"/>
             </div>
 
             <div class="grid grid-cols-2 gap-2">
                 <div>
                     <label class="fieldset-label" for="gender">Gender</label>
                     <div class="filter">
-                        <input class="btn filter-reset" type="radio" name="gender" aria-label="All"/>
-                        <input class="btn" type="radio" name="gender" aria-label="Male"/>
-                        <input class="btn" type="radio" name="gender" aria-label="Female"/>
+                        <input class="btn filter-reset" type="radio" id="gender" aria-label="All"/>
+                        <input class="btn" type="radio" id="gender" aria-label="Male"/>
+                        <input class="btn" type="radio" id="gender" aria-label="Female"/>
                     </div>
                 </div>
                 <div>
                     <label class="fieldset-label" for="field-service-group">Field Service Group</label>
-                    <select class="select" name="field-service-group">
+                    <select class="select" id="field-service-group">
                         <option disabled selected>Pick a Service Group</option>
                         <option>Group 1</option>
                         <option>Group 2</option>
@@ -122,18 +121,18 @@
             <div class="grid grid-cols-2 gap-2">
                 <div>
                     <label class="label" for="firstname">Firstname:</label>
-                    <input class="input w-full" type="text" name="firstname" placeholder="John" />
+                    <input class="input w-full" type="text" id="firstname" placeholder="John" />
                 </div>
                 <div>
                     <label class="label" for="lastname">Lastname:</label>
-                    <input class="input w-full" type="text" name="lastname" placeholder="Doe" />
+                    <input class="input w-full" type="text" id="lastname" placeholder="Doe" />
                 </div>
             </div>
 
             <div class="grid grid-cols-2 gap-2">
                 <div>
                     <label class="label" for="gender">Gender:</label>
-                    <select class="select w-full" name="gender">
+                    <select class="select w-full" id="gender">
                         <option disabled selected value="">Pick Gender</option>
                         <option value="male">Male</option>
                         <option value="female">Female</option>
@@ -141,34 +140,34 @@
                 </div>
                 <div>
                     <label class="label" for="birthday">Birthday:</label>
-                    <input class="input w-full" type="date" name="birthday" />
+                    <input class="input w-full" type="date" id="birthday" />
                 </div>
             </div>
 
             <label class="label" for="email">Email:</label>
-            <input class="input w-full" type="email" name="email" placeholder="john.doe@example.org" />
+            <input class="input w-full" type="email" id="email" placeholder="john.doe@example.org" />
 
             <label class="label" for="phone">Phone:</label>
-            <input class="input w-full" type="tel" name="phone" placeholder="+1234567890" />
+            <input class="input w-full" type="tel" id="phone" placeholder="+1234567890" />
 
             <label class="label" for="address">Address:</label>
-            <input class="input w-full" type="text" name="address" placeholder="1234 Main St" />
+            <input class="input w-full" type="text" id="address" placeholder="1234 Main St" />
 
             <div class="grid grid-cols-2 gap-2">
                 <div>
                     <label class="label" for="city">City:</label>
-                    <input class="input w-full" type="text" name="city" placeholder="City" />
+                    <input class="input w-full" type="text" id="city" placeholder="City" />
                 </div>
                 <div>
                     <label class="label" for="zipcode">Zipcode:</label>
-                    <input class="input w-full" type="text" name="zipcode" placeholder="ABC123" />
+                    <input class="input w-full" type="text" id="zipcode" placeholder="ABC123" />
                 </div>
             </div>
 
             <div class="divider"></div>
 
             <label class="label" for="service-field-group">Service Field Group:</label>
-            <select class="select w-full" name="service-field-group">
+            <select class="select w-full" id="service-field-group">
                 <option disabled selected value="">Pick a Field Service Group</option>
                 <option value="group1">Group 1</option>
                 <option value="group2">Group 2</option>
@@ -178,7 +177,7 @@
             <div class="grid grid-cols-2 gap-2">
                 <div>
                     <label class="label" for="publisher-type">Publisher Type:</label>
-                    <select class="select w-full" name="publisher-type">
+                    <select class="select w-full" id="publisher-type">
                         <option disabled selected value="">Pick a publisher type</option>
                         <option value="baptized">Baptized</option>
                         <option value="continuous_auxiliary_pioneer">Continuous Auxiliary Pioneer</option>
@@ -189,7 +188,7 @@
                 </div>
                 <div>
                     <label class="label" for="appointment">Appointment:</label>
-                    <select class="select w-full" name="appointment">
+                    <select class="select w-full" id="appointment">
                         <option disabled selected value="">Pick Appointment</option>
                         <option value="elder">Elder</option>
                         <option value="ministerial_servant">Ministerial Servant</option>
@@ -200,7 +199,7 @@
 
             <!-- TODO: Make this invisible until publisher type is selected -->
             <label class="label" for="baptism">Baptism:</label>
-            <input class="input w-full" type="date" name="baptism" />
+            <input class="input w-full" type="date" id="baptism" />
         </fieldset>
         <div class="modal-action">
             <button class="btn btn-primary">Create</button>

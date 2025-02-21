@@ -1,0 +1,407 @@
+name: 'Deploy 🚀'
+
+on:
+  push:
+    tags:
+      - '*.*.*'
+
+env:
+  GH_TOKEN: ${{ github.token }}
+  NDK_VERSION: "27.2.12479018"
+  TAURI_VERSION: "^2.0.0"
+  TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.APP_SIGN_KEY }}
+
+jobs:
+  deploy:
+    name: ${{ matrix.name }}
+    runs-on: ${{ matrix.os }}
+    environment:
+      name: production
+      url: ${{ steps.web-deploy.outputs.page_url }}
+    permissions:
+      pages: write
+      id-token: write
+      contents: write
+      discussions: write
+    outputs:
+      #Linux
+      x64_APPIMAGE_SIG: ${{ steps.gen_artifacts.outputs.x64_APPIMAGE_SIG }}
+      ARM64_APPIMAGE_SIG: ${{ steps.gen_artifacts.outputs.ARM64_APPIMAGE_SIG }}
+      #Windows
+      x64_MSI_SIG: ${{ steps.gen_artifacts.outputs.x64_MSI_SIG }}
+      x64_EXE_SIG: ${{ steps.gen_artifacts.outputs.x64_EXE_SIG }}
+      x86_MSI_SIG: ${{ steps.gen_artifacts.outputs.x86_MSI_SIG }}
+      x86_EXE_SIG: ${{ steps.gen_artifacts.outputs.x86_EXE_SIG }}
+      ARM64_MSI_SIG: ${{ steps.gen_artifacts.outputs.ARM64_MSI_SIG }}
+      ARM64_EXE_SIG: ${{ steps.gen_artifacts.outputs.ARM64_EXE_SIG }}
+      #MacOS
+      x64_APP_SIG: ${{ steps.gen_artifacts.outputs.x64_APP_SIG }}
+      ARM64_APP_SIG: ${{ steps.gen_artifacts.outputs.ARM64_APP_SIG }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # Windows
+          - name: 'Windows x64 🪟'
+            os: 'windows-2025'
+            target: 'x86_64-pc-windows-msvc'
+          - name: 'Windows x86 🪟'
+            os: 'windows-2025'
+            target: 'i686-pc-windows-msvc'
+          - name: 'Windows ARM64 🪟'
+            os: 'windows-2025'
+            target: 'aarch64-pc-windows-msvc'
+          # MacOS
+          - name: 'MacOS x64 🍏'
+            os: 'macos-15'
+            target: 'x86_64-apple-darwin'
+          - name: 'MacOS ARM64 🍏'
+            os: 'macos-15'
+            target: 'aarch64-apple-darwin'
+          # Linux
+          - name: 'Linux x64 🐧'
+            os: 'ubuntu-24.04'
+            target: 'x86_64-unknown-linux-gnu'
+          - name: 'Linux ARM64 🐧'
+            os: 'ubuntu-24.04-arm'
+            target: 'aarch64-unknown-linux-gnu'
+          # Android
+          # TODO: Configure Android project
+#          - name: 'Android 🤖'
+#            os: 'ubuntu-24.04'
+#            target: 'aarch64-linux-android armv7-linux-androideabi i686-linux-android x86_64-linux-android'
+          # iOS
+          # TODO: Not working without Apple Developer Account
+#          - name: 'iOS 📱'
+#            os: 'macos-15'
+#            target: 'aarch64-apple-ios aarch64-apple-ios-sim'
+          # Web
+          - name: 'Web 🌐'
+            os: 'macos-15'
+            target: ''
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v4
+
+      - name: Set Version 📝
+        shell: bash
+        env:
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          mv package.json package.json.orig
+          sed "s/\"version\": \"0\\.0\\.0-git\"/\"version\": \"${RELEASE_TAG##*\/v}\"/" package.json.orig >package.json
+
+          mv src-tauri/Cargo.toml src-tauri/Cargo.toml.orig
+          sed "s/0\\.0\\.0-git/${RELEASE_TAG##*\/v}/" src-tauri/Cargo.toml.orig >src-tauri/Cargo.toml
+
+          mv src-tauri/tauri.conf.json src-tauri/tauri.conf.json.orig
+          sed "s/\"version\": \"0\\.0\\.0-git\"/\"version\": \"${RELEASE_TAG##*\/v}\"/" src-tauri/tauri.conf.json.orig >src-tauri/tauri.conf.json
+
+      - name: Setup Java ☕
+        if: ${{ matrix.name == 'Android 🤖'}}
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'corretto'
+          java-version: '17'
+
+      - name: Setup Android 🤖
+        if: ${{ matrix.name == 'Android 🤖'}}
+        uses: android-actions/setup-android@v3
+
+      - name: Install Cargo Binstall 🛠️
+        uses: cargo-bins/cargo-binstall@main
+
+      - name: Install bun 🍞
+        uses: oven-sh/setup-bun@v2
+
+      - name: Setup Dependencies & Configs 🛠️
+        shell: bash
+        run: |
+          if [[ "${{ matrix.os }}" == "ubuntu-24.04" || "${{ matrix.os }}" == "ubuntu-24.04-arm"  ]]; then
+            sudo apt update -y && sudo apt install libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf xdg-utils -y
+          fi
+
+          if [[ "${{ matrix.name }}" == "Android 🤖" ]]; then
+            sdkmanager "ndk;$NDK_VERSION"
+            echo "NDK_HOME=$ANDROID_SDK_ROOT/ndk/$NDK_VERSION" >> $GITHUB_ENV
+          fi
+
+          cargo binstall tauri-cli -y --version $TAURI_VERSION --locked
+
+      - name: Setup Rust Targets 🦀
+        run: rustup target add wasm32-unknown-unknown ${{ matrix.target }}
+
+#      - name: Android Sign 🔐
+#        if: ${{ matrix.name == 'Android 🤖'}}
+#        run: |
+#          cd src-tauri/gen/android
+#          echo "keyAlias=${{ secrets.ANDROID_KEY_ALIAS }}" > keystore.properties
+#          echo "password=${{ secrets.ANDROID_KEY_PASSWORD }}" >> keystore.properties
+#          base64 -d <<< "${{ secrets.ANDROID_KEY_BASE64 }}" > $RUNNER_TEMP/keystore.jks
+#          echo "storeFile=$RUNNER_TEMP/keystore.jks" >> keystore.properties
+
+      - name: Build & Deploy ${{ matrix.name }} 🚀
+        shell: bash
+        run: |
+          case "${{ matrix.name }}" in
+          "Android 🤖")
+            bun run tauri android build --ci --apk --aab --target aarch64 armv7 i686 x86_64
+            ;;
+
+          "iOS 📱")
+            export CODE_SIGNING_ALLOWED="NO"
+            export CODE_SIGNING_REQUIRED="NO"
+            bun run tauri ios build --ci --target aarch64 aarch64-sim x86_64
+            ;;
+
+          "Web 🌐")
+            bun run build
+            ;;
+
+          *)
+            bun run tauri build --ci --target ${{ matrix.target }}
+            ;;
+          esac
+
+      - name: Upload files as web artifact 🌐
+        id: deployment
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: build/
+
+      - name: Deploy to GitHub Pages 🌐
+        if: ${{ matrix.name == 'Web 🌐'}}
+        id: web-deploy
+        uses: actions/deploy-pages@v4
+
+      - name: Upload Artifacts 📦
+        if: ${{ matrix.name != 'Web 🌐'}}
+        shell: bash
+        id: gen_artifacts
+        run: |
+          case "${{ matrix.name }}" in
+            "Windows x64 🪟")
+              gh release upload ${{ github.ref_name }} target/${{ matrix.target }}/release/bundle/msi/Zetta\ Project_${{ github.ref_name }}_x64_en-US.msi \
+                target/${{ matrix.target }}/release/bundle/nsis/Zetta\ Project_${{ github.ref_name }}_x64-setup.exe
+              
+              echo "x64_MSI_SIG=$(cat target/${{ matrix.target }}/release/bundle/msi/Zetta\ Project_${{ github.ref_name }}_x64_en-US.msi.sig)" >> $GITHUB_OUTPUT
+              echo "x64_EXE_SIG=$(cat target/${{ matrix.target }}/release/bundle/nsis/Zetta\ Project_${{ github.ref_name }}_x64-setup.exe.sig)" >> $GITHUB_OUTPUT
+              ;;
+
+            "Windows x86 🪟")
+              gh release upload ${{ github.ref_name }} target/${{ matrix.target }}/release/bundle/msi/Zetta\ Project_${{ github.ref_name }}_x86_en-US.msi \
+                target/${{ matrix.target }}/release/bundle/nsis/Zetta\ Project_${{ github.ref_name }}_x86-setup.exe
+              
+              echo "x86_MSI_SIG=$(cat target/${{ matrix.target }}/release/bundle/msi/Zetta\ Project_${{ github.ref_name }}_x86_en-US.msi.sig)" >> $GITHUB_OUTPUT
+              echo "x86_EXE_SIG=$(cat target/${{ matrix.target }}/release/bundle/nsis/Zetta\ Project_${{ github.ref_name }}_x86-setup.exe.sig)" >> $GITHUB_OUTPUT
+              ;;
+
+            "Windows ARM64 🪟")
+              gh release upload ${{ github.ref_name }} target/${{ matrix.target }}/release/bundle/msi/Zetta\ Project_${{ github.ref_name }}_arm64_en-US.msi \
+                target/${{ matrix.target }}/release/bundle/nsis/Zetta\ Project_${{ github.ref_name }}_arm64-setup.exe
+              
+              echo "ARM64_MSI_SIG=$(cat target/${{ matrix.target }}/release/bundle/msi/Zetta\ Project_${{ github.ref_name }}_arm64_en-US.msi.sig)" >> $GITHUB_OUTPUT
+              echo "ARM64_EXE_SIG=$(cat target/${{ matrix.target }}/release/bundle/nsis/Zetta\ Project_${{ github.ref_name }}_arm64-setup.exe.sig)" >> $GITHUB_OUTPUT
+              ;;
+
+            "Linux x64 🐧")
+              gh release upload ${{ github.ref_name }} target/${{ matrix.target }}/release/bundle/deb/Zetta\ Project_${{ github.ref_name }}_amd64.deb \
+                target/${{ matrix.target }}/release/bundle/rpm/Zetta\ Project-${{ github.ref_name }}-1.x86_64.rpm \
+                target/${{ matrix.target }}/release/bundle/appimage/Zetta\ Project_${{ github.ref_name }}_amd64.AppImage
+
+              echo "x64_APPIMAGE_SIG=$(cat target/${{ matrix.target }}/release/bundle/appimage/Zetta\ Project_${{ github.ref_name }}_amd64.AppImage.sig)" >> $GITHUB_OUTPUT
+              ;;
+
+            "Linux ARM64 🐧")
+              gh release upload ${{ github.ref_name }} target/${{ matrix.target }}/release/bundle/deb/Zetta\ Project_${{ github.ref_name }}_arm64.deb \
+                target/${{ matrix.target }}/release/bundle/rpm/Zetta\ Project-${{ github.ref_name }}-1.aarch64.rpm \
+                target/${{ matrix.target }}/release/bundle/appimage/Zetta\ Project_${{ github.ref_name }}_aarch64.AppImage
+
+              echo "ARM64_APPIMAGE_SIG=$(cat target/${{ matrix.target }}/release/bundle/appimage/Zetta\ Project_${{ github.ref_name }}_aarch64.AppImage.sig)" >> $GITHUB_OUTPUT
+              ;;
+
+            "MacOS x64 🍏")
+              mv target/${{ matrix.target }}/release/bundle/macos/Zetta\ Project.app.tar.gz target/${{ matrix.target }}/release/bundle/macos/Zetta\ Project_${{ github.ref_name }}_x64.app.tar.gz
+              mv target/${{ matrix.target }}/release/bundle/macos/Zetta\ Project.app.tar.gz.sig target/${{ matrix.target }}/release/bundle/macos/Zetta\ Project_${{ github.ref_name }}_x64.app.tar.gz.sig
+              gh release upload ${{ github.ref_name }} target/${{ matrix.target }}/release/bundle/dmg/Zetta\ Project_${{ github.ref_name }}_x64.dmg \
+                target/${{ matrix.target }}/release/bundle/macos/Zetta\ Project_${{ github.ref_name }}_x64.app.tar.gz
+
+              echo "x64_APP_SIG=$(cat target/${{ matrix.target }}/release/bundle/macos/Zetta\ Project_${{ github.ref_name }}_x64.app.tar.gz.sig)" >> $GITHUB_OUTPUT
+              ;;
+
+            "MacOS ARM64 🍏")
+              mv target/${{ matrix.target }}/release/bundle/macos/Zetta\ Project.app.tar.gz target/${{ matrix.target }}/release/bundle/macos/Zetta\ Project_${{ github.ref_name }}_aarch64.app.tar.gz
+              mv target/${{ matrix.target }}/release/bundle/macos/Zetta\ Project.app.tar.gz.sig target/${{ matrix.target }}/release/bundle/macos/Zetta\ Project_${{ github.ref_name }}_aarch64.app.tar.gz.sig
+              gh release upload ${{ github.ref_name }} target/${{ matrix.target }}/release/bundle/dmg/Zetta\ Project_${{ github.ref_name }}_aarch64.dmg \
+                target/${{ matrix.target }}/release/bundle/macos/Zetta\ Project_${{ github.ref_name }}_aarch64.app.tar.gz
+
+              echo "ARM64_APP_SIG=$(cat target/${{ matrix.target }}/release/bundle/macos/Zetta\ Project_${{ github.ref_name }}_aarch64.app.tar.gz.sig)" >> $GITHUB_OUTPUT
+              ;;
+
+            "iOS 📱")
+              echo "Not ready yet"
+              ;;
+
+            "Android 🤖")
+              mv src-tauri/gen/android/app/build/outputs/apk/universal/release/app-universal-release.apk src-tauri/gen/android/app/build/outputs/apk/universal/release/Zetta\ Project_${{ github.ref_name }}.apk
+              mv src-tauri/gen/android/app/build/outputs/bundle/universalRelease/app-universal-release.aab src-tauri/gen/android/app/build/outputs/bundle/universalRelease/Zetta\ Project_${{ github.ref_name }}.aab
+              gh release upload ${{ github.ref_name }} src-tauri/gen/android/app/build/outputs/apk/universal/release/Zetta\ Project_${{ github.ref_name }}.apk \
+                src-tauri/gen/android/app/build/outputs/bundle/universalRelease/Zetta\ Project_${{ github.ref_name }}.aab
+              ;;
+          esac
+  updater:
+    name: Updater 🔄
+    runs-on: macos-15
+    needs: [deploy]
+    permissions:
+      contents: write
+      discussions: write
+    environment:
+      name: production
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v4
+
+      - name: Generate updater 🔄
+        env:
+          #Linux
+          x64_APPIMAGE_SIG: ${{ needs.deploy.outputs.x64_APPIMAGE_SIG }}
+          ARM64_APPIMAGE_SIG: ${{ needs.deploy.outputs.ARM64_APPIMAGE_SIG }}
+          #Windows
+          x64_MSI_SIG: ${{ needs.deploy.outputs.x64_MSI_SIG }}
+          x64_EXE_SIG: ${{ needs.deploy.outputs.x64_EXE_SIG }}
+          x86_MSI_SIG: ${{ needs.deploy.outputs.x86_MSI_SIG }}
+          x86_EXE_SIG: ${{ needs.deploy.outputs.x86_EXE_SIG }}
+          ARM64_MSI_SIG: ${{ needs.deploy.outputs.ARM64_MSI_SIG }}
+          ARM64_EXE_SIG: ${{ needs.deploy.outputs.ARM64_EXE_SIG }}
+          #MacOS
+          x64_APP_SIG: ${{ needs.deploy.outputs.x64_APP_SIG }}
+          ARM64_APP_SIG: ${{ needs.deploy.outputs.ARM64_APP_SIG }}
+        run: |
+          cat <<EOF > updater.json
+          {
+            "version": "${{ github.ref_name }}",
+            "pub_date": "$(date -u +'%Y-%m-%dT%H:%M:%SZ')",
+            "platforms": {
+              "linux-x86_64": {
+                "signature": "${x64_APPIMAGE_SIG}",
+                "url": "https://github.com/MarckFp/zetta-project/releases/download/${{ github.ref_name }}/Zetta.Project_${{ github.ref_name }}_amd64.AppImage"
+              },
+              "linux-aarch64": {
+                "signature": "${ARM64_APPIMAGE_SIG}",
+                "url": "https://github.com/MarckFp/zetta-project/releases/download/${{ github.ref_name }}/Zetta.Project_${{ github.ref_name }}_aarch64.AppImage"
+              },
+              "windows-x86_64": {
+                "signature": "${x64_MSI_SIG}",
+                "url": "https://github.com/MarckFp/zetta-project/releases/download/${{ github.ref_name }}/Zetta.Project_${{ github.ref_name }}_x64_en-US.msi"
+              },
+              "windows-aarch64": {
+                "signature": "${ARM64_MSI_SIG}",
+                "url": "https://github.com/MarckFp/zetta-project/releases/download/${{ github.ref_name }}/Zetta.Project_${{ github.ref_name }}_arm64_en-US.msi"
+              },
+              "windows-i686": {
+                "signature": "${x86_MSI_SIG}",
+                "url": "https://github.com/MarckFp/zetta-project/releases/download/${{ github.ref_name }}/Zetta.Project_${{ github.ref_name }}_x64.app.tar.gz"
+              },
+              "darwin-x86_64": {
+                "signature": "${x64_APP_SIG}",
+                "url": "https://github.com/MarckFp/zetta-project/releases/download/${{ github.ref_name }}/Zetta.Project_${{ github.ref_name }}_x64.app.tar.gz"
+              },
+              "darwin-aarch64": {
+                "signature": "${ARM64_APP_SIG}",
+                "url": "https://github.com/MarckFp/zetta-project/releases/download/${{ github.ref_name }}/Zetta.Project_${{ github.ref_name }}_aarch64.app.tar.gz"
+              }
+            }
+          }
+          EOF
+          gh release upload ${{ github.ref_name }} updater.json
+# Not working for the moment
+#  amazon-appstore:
+#    name: Amazon AppStore 📦
+#    runs-on: macos-15
+#    needs: [deploy]
+#    environment:
+#      name: production
+#    steps:
+#      - name: Checkout 🛎️
+#        uses: actions/checkout@v4
+#
+#      - name: Download app 📥
+#        shell: bash
+#        run: curl -L https://github.com/MarckFp/zetta-project/releases/download/${{ github.ref_name }}/Zetta.Project_${{ github.ref_name }}.apk > Zetta.Project_${{ github.ref_name }}.apk
+#
+#      - name: Upload to Amazon AppStore 📤
+#        uses: AmeyaJain-25/amazon-appstore-app-upload@v1.0.0
+#        with:
+#          client_id: ${{secrets.AMAZON_APPSTORE_CLIENT_ID}}
+#          client_secret: ${{secrets.AMAZON_APPSTORE_CLIENT_SECRET}}
+#          app_id: ${{ secrets.AMAZON_APPSTORE_APP_ID }}
+#          apk_release_file: Zetta.Project_${{ github.ref_name }}.apk
+#  google-play:
+#    name: Google Play Store 📦
+#    runs-on: macos-15
+#    needs: [deploy]
+#    environment:
+#      name: production
+#    steps:
+#      - name: Checkout 🛎️
+#        uses: actions/checkout@v4
+#
+#      - name: Download app 📥
+#        shell: bash
+#        run: curl -L https://github.com/MarckFp/zetta-project/releases/download/${{ github.ref_name }}/Zetta.Project_${{ github.ref_name }}.aab > Zetta.Project_${{ github.ref_name }}.aab
+#
+#      - name: Upload to Google Play Store 📤
+#        uses: r0adkll/upload-google-play@v1
+#        with:
+#          serviceAccountJsonPlainText: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
+#          packageName: com.zetta-project.app
+#          releaseFiles: Zetta.Project_${{ github.ref_name }}.aab
+#          track: production
+#  ms-store:
+#    name: Microsoft Store 📦
+#    runs-on: macos-15
+#    needs: [deploy]
+#    environment:
+#      name: production
+#    steps:
+#      - name: Checkout 🛎️
+#        uses: actions/checkout@v4
+#
+#      - name: Configure Store Credentials 🔑
+#        uses: microsoft/store-submission@v1
+#        with:
+#          command: configure
+#          type: win32
+#          seller-id: ${{ secrets.MS_SELLER_ID }}
+#          product-id: ${{ secrets.MS_PRODUCT_ID }}
+#          tenant-id: ${{ secrets.MS_TENANT_ID }}
+#          client-id: ${{ secrets.MS_CLIENT_ID }}
+#          client-secret: ${{ secrets.MS_CLIENT_SECRET }}
+#
+#      - name: Update Draft Submission 📝
+#        uses: microsoft/store-submission@v1
+#        with:
+#          command: update
+#          product-update: |
+#            '{
+#              "packages":[
+#                {
+#                  "packageUrl":"https://github.com/MarckFp/zetta-project/releases/download/${{ github.ref_name }}/Zetta.Project_${{ github.ref_name }}_x64_en-US.msi",
+#                  "languages":["en"],
+#                  "architectures":["X64", "X86"],
+#                  "isSilentInstall":true
+#                },
+#                {
+#                  "packageUrl":"https://github.com/MarckFp/zetta-project/releases/download/${{ github.ref_name }}/Zetta.Project_${{ github.ref_name }}_arm64_en-US.msi",
+#                  "languages":["en"],
+#                  "architectures":["Arm64", "Arm"],
+#                  "isSilentInstall":true
+#                }
+#              ]
+#            }'
+#
+#      - name: Publish Submission 🚀
+#        uses: microsoft/store-submission@v1
+#        with:
+#          command: publish

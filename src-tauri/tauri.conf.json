@@ -1,7 +1,7 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "theomanager",
-  "version": "0.1.0",
+  "productName": "TheoManager",
+  "version": "0.0.0-git",
   "identifier": "com.theomanager.app",
   "build": {
     "beforeDevCommand": "bun run dev",
@@ -12,7 +12,7 @@
   "app": {
     "windows": [
       {
-        "title": "theomanager",
+        "title": "Theo Manager",
         "width": 800,
         "height": 600
       }
@@ -24,6 +24,8 @@
   "bundle": {
     "active": true,
     "targets": "all",
+    "category": "Utility",
+    "createUpdaterArtifacts": true,
     "icon": [
       "icons/32x32.png",
       "icons/128x128.png",
@@ -31,5 +33,13 @@
       "icons/icon.icns",
       "icons/icon.ico"
     ]
+  },
+  "plugins": {
+    "updater": {
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDJEQURFMTM1QTlGN0E0NUMKUldSY3BQZXBOZUd0TFQyTzZjQkJXR1hqUTZFWm1ZMVNCZDRKSjFKS0NhM1A5ZHJ4bTdGWkFxMHMK",
+      "endpoints": [
+        "https://github.com/MarckFp/TheoManager/releases/latest/download/updater.json"
+      ]
+    }
   }
 }
