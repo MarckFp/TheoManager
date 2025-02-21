@@ -121,25 +121,26 @@ jobs:
             sudo apt update -y && sudo apt install libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf xdg-utils -y
           fi
 
+          bun install
+          cargo binstall tauri-cli -y --version $TAURI_VERSION --locked
+        
           if [[ "${{ matrix.name }}" == "Android 🤖" ]]; then
             sdkmanager "ndk;$NDK_VERSION"
             echo "NDK_HOME=$ANDROID_SDK_ROOT/ndk/$NDK_VERSION" >> $GITHUB_ENV
+            bun run tauri android init --ci
           fi
-
-          bun install
-          cargo binstall tauri-cli -y --version $TAURI_VERSION --locked
 
       - name: Setup Rust Targets 🦀
         run: rustup target add wasm32-unknown-unknown ${{ matrix.target }}
 
-#      - name: Android Sign 🔐
-#        if: ${{ matrix.name == 'Android 🤖'}}
-#        run: |
-#          cd src-tauri/gen/android
-#          echo "keyAlias=${{ secrets.ANDROID_KEY_ALIAS }}" > keystore.properties
-#          echo "password=${{ secrets.ANDROID_KEY_PASSWORD }}" >> keystore.properties
-#          base64 -d <<< "${{ secrets.ANDROID_KEY_BASE64 }}" > $RUNNER_TEMP/keystore.jks
-#          echo "storeFile=$RUNNER_TEMP/keystore.jks" >> keystore.properties
+      - name: Android Sign 🔐
+        if: ${{ matrix.name == 'Android 🤖'}}
+        run: |
+          cd src-tauri/gen/android
+          echo "keyAlias=${{ secrets.ANDROID_KEY_ALIAS }}" > keystore.properties
+          echo "password=${{ secrets.ANDROID_KEY_PASSWORD }}" >> keystore.properties
+          base64 -d <<< "${{ secrets.ANDROID_KEY_BASE64 }}" > $RUNNER_TEMP/keystore.jks
+          echo "storeFile=$RUNNER_TEMP/keystore.jks" >> keystore.properties
 
       - name: Build & Deploy ${{ matrix.name }} 🚀
         shell: bash
@@ -147,11 +148,11 @@ jobs:
           bun tauri icon static/android-chrome-512x512.png
           case "${{ matrix.name }}" in
           "Android 🤖")
-            bun run tauri android init --ci
             bun run tauri android build --ci --apk --aab --target aarch64 armv7 i686 x86_64
             ;;
 
           "iOS 📱")
+            bun run tauri ios init --ci
             export CODE_SIGNING_ALLOWED="NO"
             export CODE_SIGNING_REQUIRED="NO"
             bun run tauri ios build --ci --target aarch64 aarch64-sim x86_64
