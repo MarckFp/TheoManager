@@ -144,6 +144,7 @@ jobs:
       - name: Build & Deploy ${{ matrix.name }} 🚀
         shell: bash
         run: |
+          bun tauri icon static/android-chrome-512x512.png
           case "${{ matrix.name }}" in
           "Android 🤖")
             bun run tauri android init --ci
@@ -246,7 +247,7 @@ jobs:
               ;;
 
             "Android 🤖")
-              mv src-tauri/gen/android/app/build/outputs/apk/universal/release/app-universal-release.apk src-tauri/gen/android/app/build/outputs/apk/universal/release/TheoManager_${{ github.ref_name }}.apk
+              mv src-tauri/gen/android/app/build/outputs/apk/universal/release/app-universal-release-unsigned.apk src-tauri/gen/android/app/build/outputs/apk/universal/release/TheoManager_${{ github.ref_name }}.apk
               mv src-tauri/gen/android/app/build/outputs/bundle/universalRelease/app-universal-release.aab src-tauri/gen/android/app/build/outputs/bundle/universalRelease/TheoManager_${{ github.ref_name }}.aab
               gh release upload ${{ github.ref_name }} src-tauri/gen/android/app/build/outputs/apk/universal/release/TheoManager_${{ github.ref_name }}.apk \
                 src-tauri/gen/android/app/build/outputs/bundle/universalRelease/TheoManager_${{ github.ref_name }}.aab
