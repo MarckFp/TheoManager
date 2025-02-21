@@ -165,7 +165,7 @@ jobs:
           esac
 
       - name: Upload files as web artifact 🌐
-        id: deployment
+        if: ${{ matrix.name == 'Web 🌐'}}
         uses: actions/upload-pages-artifact@v3
         with:
           path: build/
