@@ -1,6 +1,7 @@
 <script lang="ts">
     import { Icon, Plus, Pencil, Trash, MagnifyingGlass, ArrowUturnLeft } from "svelte-hero-icons"
     import { base } from '$app/paths'
+    import { _ } from 'svelte-i18n'
 </script>
 
 <!-- Title -->
@@ -9,7 +10,7 @@
         <a class="btn btn-circle btn-secondary ml-4" href="{base}/app/publishers">
             <Icon src="{ArrowUturnLeft}" outline size="26" />
         </a>
-        <span class="text-2xl justify-center text-center">List</span>
+        <span class="text-2xl justify-center text-center">{$_("nav.list")}</span>
         <div class="w-10"></div>
     </div>
 </div>

@@ -5,7 +5,21 @@
         "kingdom-hall": "Kingdom Hall",
         "preaching": "Preaching",
         "meetings": "Meetings",
-        "settings": "Settings"
+        "settings": "Settings",
+        "territory": "Territory",
+        "attendance": "Attendance",
+        "cleaning": "Cleaning",
+        "maintenance": "Maintenance",
+        "midweek": "Midweek",
+        "weekend": "Weekend",
+        "av-attendant": "AV &Attendant",
+        "field-servie-meetings": "Field Service Meetings",
+        "field-service-groups": "Field Service Groups",
+        "public-witnessing": "Public Witnessing",
+        "list": "List",
+        "reports": "Reports",
+        "exports": "Exports",
+        "absences": "Absences"
     },
     "home": {
         "welcome": "Welcome to"
