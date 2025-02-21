@@ -12,6 +12,8 @@
 
 </script>
 
+<!-- TODO: Add stage to login/register username before creating congregation -->
+
 <div class="hero bg-base-200 min-h-screen relative">
   <div class="hero-content text-center pb-20">
     <div class="max-w-lg">

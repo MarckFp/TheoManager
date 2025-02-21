@@ -1,0 +1,18 @@
+{
+    "nav": {
+        "home": "Home",
+        "publishers": "Publishers",
+        "kingdom-hall": "Kingdom Hall",
+        "preaching": "Preaching",
+        "meetings": "Meetings",
+        "settings": "Settings"
+    },
+    "home": {
+        "welcome": "Welcome to"
+    },
+    "welcome": {
+        "description": "TheoManager is an app to manage all things related with your congregation. From meetings to preaching and kingdom hall matter everything in one place.",
+        "features-title": "Features",
+        "features-text": "TheoManager is designed with love and care to help you in any matter, designed to be:"
+    }
+}
