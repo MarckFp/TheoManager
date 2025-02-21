@@ -10,7 +10,7 @@
         <a class="btn btn-circle btn-secondary ml-4" href="{base}/app/publishers">
             <Icon src="{ArrowUturnLeft}" outline size="26" />
         </a>
-        <span class="text-2xl justify-center text-center">{$_("nav.absences")}</span>
+        <span class="text-2xl justify-center text-center font-semibold">{$_("nav.absences")}</span>
         <div class="w-10"></div>
     </div>
 </div>

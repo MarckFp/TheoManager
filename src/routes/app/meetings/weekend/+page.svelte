@@ -10,7 +10,7 @@
         <a class="btn btn-circle btn-secondary ml-4" href="{base}/app/meetings">
             <Icon src="{ArrowUturnLeft}" outline size="26" />
         </a>
-        <span class="text-2xl justify-center text-center">{$_('nav.weekend')}</span>
+        <span class="text-2xl justify-center text-center font-semibold">{$_('nav.weekend')}</span>
         <div class="w-10"></div>
     </div>
 </div>

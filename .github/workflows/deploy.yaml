@@ -223,6 +223,8 @@ jobs:
               ;;
 
             "MacOS x64 🍏")
+              mv src-tauri/target/x86_64-apple-darwin/release/bundle/macos/TheoManager.app.tar.gz src-tauri/target/x86_64-apple-darwin/release/bundle/macos/TheoManager_${{ github.ref_name }}_x64.app.tar.gz
+
               gh release upload ${{ github.ref_name }} src-tauri/target/${{ matrix.target }}/release/bundle/dmg/TheoManager_${{ github.ref_name }}_x64.dmg \
                 src-tauri/target/${{ matrix.target }}/release/bundle/macos/TheoManager_${{ github.ref_name }}_x64.app.tar.gz
 
@@ -230,6 +232,8 @@ jobs:
               ;;
 
             "MacOS ARM64 🍏")
+              mv src-tauri/target/aarch64-apple-darwin/release/bundle/macos/TheoManager.app.tar.gz src-tauri/target/aarch64-apple-darwin/release/bundle/macos/TheoManager_${{ github.ref_name }}_aarch64.app.tar.gz
+
               gh release upload ${{ github.ref_name }} src-tauri/target/${{ matrix.target }}/release/bundle/dmg/TheoManager_${{ github.ref_name }}_aarch64.dmg \
                 src-tauri/target/${{ matrix.target }}/release/bundle/macos/TheoManager_${{ github.ref_name }}_aarch64.app.tar.gz
 

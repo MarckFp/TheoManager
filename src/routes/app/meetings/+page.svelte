@@ -6,22 +6,22 @@
 
 <!-- Title -->
 <div class="p-4">
-    <div class="card bg-base-300 rounded-box grid h-20 place-items-center text-2xl">{$_('nav.meetings')}</div>
+    <div class="card bg-base-300 rounded-box grid h-20 place-items-center text-2xl font-semibold">{$_('nav.meetings')}</div>
 </div>
 
 <!-- Menu -->
 <div class="grid grid-cols-2 gap-4 p-4 text-center">
-    <a href="{base}/app/meetings/midweek" class="btn p-20 text-lg">
+    <a href="{base}/app/meetings/midweek" class="btn btn-primary p-18 text-lg">
         <div>{$_('nav.midweek')}</div>
         <div><Icon src="{CalendarDays}" outline size="26" /></div>
     </a>
 
-    <a href="{base}/app/meetings/weekend" class="btn p-20 text-lg">
+    <a href="{base}/app/meetings/weekend" class="btn btn-accent p-18 text-lg">
         <div>{$_('nav.weekend')}</div>
         <div><Icon src="{Calendar}" outline size="26" /></div>
     </a>
 
-    <a href="{base}/app/meetings/av-attendant" class="btn p-20 text-lg">
+    <a href="{base}/app/meetings/av-attendant" class="btn btn-success p-14 text-lg col-span-2">
         <div>{$_('nav.av-attendant')}</div>
         <div><Icon src="{SpeakerWave}" outline size="26" /></div>
     </a>
