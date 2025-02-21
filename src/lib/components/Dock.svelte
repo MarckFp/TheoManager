@@ -46,12 +46,4 @@
   #dock-menu {
     view-transition-name: dock-menu;
   }
-
-  .dock-label {
-    max-width: 64px;
-    display: inline-block;
-    text-align: center;
-    white-space: normal;
-    word-break: break-word;
-  }
 </style>
