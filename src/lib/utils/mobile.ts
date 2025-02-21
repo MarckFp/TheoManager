@@ -1,18 +1,19 @@
 import { writable } from "svelte/store";
 
-let ismobile = writable(false)
+let isMobile = writable(false)
 
 const mediaQuery = window.matchMedia('(width <= 640px)')
 mediaQuery.addEventListener('change', ({matches}) => {
     if (matches) {
-        ismobile.set(true)
+        isMobile.set(true)
     } else {
-        ismobile.set(false)
+        isMobile.set(false)
     }
 })
 if (mediaQuery.matches) {
-    ismobile.set(true)
+    isMobile.set(true)
 } else {
-    ismobile.set(false)
+    isMobile.set(false)
 }
 
+export { isMobile }
