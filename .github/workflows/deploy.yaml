@@ -82,20 +82,22 @@ jobs:
     steps:
       - name: Checkout 🛎️
         uses: actions/checkout@v4
+        with:
+          ref: 'main'
 
       - name: Set Version 📝
         shell: bash
         env:
           RELEASE_TAG: ${{ github.ref_name }}
         run: |
-          mv package.json package.json.orig
-          sed "s/\"version\": \"0\\.0\\.0-git\"/\"version\": \"${RELEASE_TAG##*\/v}\"/" package.json.orig >package.json
+#          mv package.json package.json.orig
+#          sed "s/\"version\": \"0\\.0\\.0-git\"/\"version\": \"${RELEASE_TAG##*\/v}\"/" package.json.orig >package.json
 
-          mv src-tauri/Cargo.toml src-tauri/Cargo.toml.orig
-          sed "s/0\\.0\\.0-git/${RELEASE_TAG##*\/v}/" src-tauri/Cargo.toml.orig >src-tauri/Cargo.toml
+#          mv src-tauri/Cargo.toml src-tauri/Cargo.toml.orig
+#          sed "s/0\\.0\\.0-git/${RELEASE_TAG##*\/v}/" src-tauri/Cargo.toml.orig >src-tauri/Cargo.toml
 
-          mv src-tauri/tauri.conf.json src-tauri/tauri.conf.json.orig
-          sed "s/\"version\": \"0\\.0\\.0-git\"/\"version\": \"${RELEASE_TAG##*\/v}\"/" src-tauri/tauri.conf.json.orig >src-tauri/tauri.conf.json
+#          mv src-tauri/tauri.conf.json src-tauri/tauri.conf.json.orig
+#          sed "s/\"version\": \"0\\.0\\.0-git\"/\"version\": \"${RELEASE_TAG##*\/v}\"/" src-tauri/tauri.conf.json.orig >src-tauri/tauri.conf.json
 
       - name: Setup Java ☕
         if: ${{ matrix.name == 'Android 🤖'}}
@@ -129,7 +131,12 @@ jobs:
             echo "NDK_HOME=$ANDROID_SDK_ROOT/ndk/$NDK_VERSION" >> $GITHUB_ENV
             export NDK_HOME="$ANDROID_SDK_ROOT/ndk/$NDK_VERSION"
             bun run tauri android init --ci
-          fi
+
+            git config --global user.name 'Your Name'
+            git config --global user.email 'MarckFp@users.noreply.github.com'
+            git commit -am "Automated report"
+            git push
+         fi
 
       - name: Setup Rust Targets 🦀
         run: rustup target add wasm32-unknown-unknown ${{ matrix.target }}
