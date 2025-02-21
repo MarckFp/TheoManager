@@ -2,6 +2,26 @@
     import { Icon, Plus, Pencil, Trash, MagnifyingGlass, ArrowUturnLeft } from "svelte-hero-icons"
     import { base } from '$app/paths'
     import { _ } from 'svelte-i18n'
+    import { onMount, onDestroy } from "svelte";
+
+    let searchInput: HTMLInputElement | null = null
+
+    function focusSearch(event: KeyboardEvent) {
+        if (
+            event.key === "/" || 
+            (event.ctrlKey && event.key === "k") || 
+            (event.metaKey && event.key === "k") // Mac support
+        ) {
+            event.preventDefault(); // Prevent typing "/" in input fields
+            searchInput?.focus();
+        }
+        if (event.key === "Escape") {
+            searchInput?.blur();
+        }
+    }
+
+    onMount(() => document.addEventListener("keydown", focusSearch));
+    onDestroy(() => document.removeEventListener("keydown", focusSearch));
 </script>
 
 <!-- Title -->
@@ -22,31 +42,31 @@
         <input type="checkbox" />
 
         <fieldset class="fieldset collapse-content">
-            <label class="fieldset-label" for="appointment">Appointment</label>
+            <label class="fieldset-label">Appointment</label>
             <div class="filter">
-                <input class="btn filter-reset" type="radio" id="appointment" aria-label="All"/>
-                <input class="btn" type="radio" id="appointment" aria-label="Elder"/>
-                <input class="btn" type="radio" id="appointment" aria-label="Ministerial servant"/>
-                <input class="btn" type="radio" id="appointment" aria-label="Not appointed"/>
+                <input class="btn filter-reset" type="radio" name="appointment" aria-label="All"/>
+                <input class="btn" type="radio" name="appointment" aria-label="Elder"/>
+                <input class="btn" type="radio" name="appointment" aria-label="Ministerial servant"/>
+                <input class="btn" type="radio" name="appointment" aria-label="Not appointed"/>
             </div>
 
-            <label class="fieldset-label" for="publisher-type">Publisher Type</label>
+            <label class="fieldset-label">Publisher Type</label>
             <div class="filter">
-                <input class="btn filter-reset" type="radio" id="publisher-type" aria-label="All"/>
-                <input class="btn" type="radio" id="publisher-type" aria-label="Baptized"/>
-                <input class="btn" type="radio" id="publisher-type" aria-label="Continuous Auxiliary Pioneer"/>
-                <input class="btn" type="radio" id="publisher-type" aria-label="Regular Pioneer"/>
-                <input class="btn" type="radio" id="publisher-type" aria-label="Special Pioneer"/>
-                <input class="btn" type="radio" id="publisher-type" aria-label="Unbaptized"/>
+                <input class="btn filter-reset" type="radio" name="publisher-type" aria-label="All"/>
+                <input class="btn" type="radio" name="publisher-type" aria-label="Baptized"/>
+                <input class="btn" type="radio" name="publisher-type" aria-label="Continuous Auxiliary Pioneer"/>
+                <input class="btn" type="radio" name="publisher-type" aria-label="Regular Pioneer"/>
+                <input class="btn" type="radio" name="publisher-type" aria-label="Special Pioneer"/>
+                <input class="btn" type="radio" name="publisher-type" aria-label="Unbaptized"/>
             </div>
 
             <div class="grid grid-cols-2 gap-2">
                 <div>
-                    <label class="fieldset-label" for="gender">Gender</label>
+                    <label class="fieldset-label">Gender</label>
                     <div class="filter">
-                        <input class="btn filter-reset" type="radio" id="gender" aria-label="All"/>
-                        <input class="btn" type="radio" id="gender" aria-label="Male"/>
-                        <input class="btn" type="radio" id="gender" aria-label="Female"/>
+                        <input class="btn filter-reset" type="radio" name="gender" aria-label="All"/>
+                        <input class="btn" type="radio" name="gender" aria-label="Male"/>
+                        <input class="btn" type="radio" name="gender" aria-label="Female"/>
                     </div>
                 </div>
                 <div>
@@ -64,7 +84,9 @@
 
     <label class="input w-full">
         <Icon src="{MagnifyingGlass}" size="24" />
-        <input type="search" required placeholder="Search"/>
+        <input type="search" required placeholder="Search" bind:this={searchInput}/>
+        <kbd class="kbd kbd-sm">Ctrl</kbd>
+        <kbd class="kbd kbd-sm">K</kbd>
     </label>
 
     <!-- List -->
@@ -73,7 +95,7 @@
         <li class="p-4 pb-2 text-xs opacity-60 tracking-wide">Publisher List</li>
 
         <li class="list-row">
-          <div><img class="size-10 rounded-box" src="https://img.daisyui.com/images/profile/demo/1@94.webp"/></div>
+          <div><img class="size-10 rounded-box" src="https://img.daisyui.com/images/profile/demo/1@94.webp" alt=""/></div>
           <div>
             <div>Dio Lupa</div>
             <div class="text-xs font-semibold opacity-60">
@@ -90,7 +112,7 @@
         </li>
 
         <li class="list-row">
-          <div><img class="size-10 rounded-box" src="https://img.daisyui.com/images/profile/demo/4@94.webp"/></div>
+          <div><img class="size-10 rounded-box" src="https://img.daisyui.com/images/profile/demo/4@94.webp" alt=""/></div>
           <div>
             <div>Ellie Beilish</div>
             <div class="text-xs font-semibold opacity-60">
@@ -106,7 +128,7 @@
         </li>
 
         <li class="list-row">
-          <div><img class="size-10 rounded-box" src="https://img.daisyui.com/images/profile/demo/3@94.webp"/></div>
+          <div><img class="size-10 rounded-box" src="https://img.daisyui.com/images/profile/demo/3@94.webp" alt=""/></div>
           <div>
             <div>Sabrino Gardener</div>
             <div class="text-xs font-semibold opacity-60">

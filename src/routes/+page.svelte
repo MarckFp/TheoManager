@@ -1,5 +1,6 @@
 <script lang="ts">
   import { Icon, CurrencyDollar, LockClosed, Wifi, Bolt, DeviceTablet } from "svelte-hero-icons"
+  import { _ } from 'svelte-i18n'
 
   let congregationCode: string,
     congregationPassword: string,
@@ -20,71 +21,73 @@
       {#if stage === 1}
         <h1 class="text-5xl font-bold">TheoManager</h1>
         <p class="py-6">
-          TheoManager is an app to manage all things related with your congregation. From meetings to preaching and kingdom hall matter everything in one place.
+          {$_('welcome.description')}
         </p>
       {:else if stage === 2}
-        <h1 class="text-5xl font-bold">Features</h1>
+        <h1 class="text-5xl font-bold">{$_('welcome.features')}</h1>
         <p class="py-6">
-          TheoManager is designed with love and care to help you in any matter, designed to be:
+          {$_('welcome.features-text')}
         </p>
         <ul class="list bg-base-100 rounded-box shadow-md mb-4">
           <li class="list-row">
             <div class="size-10 rounded-box"><Icon src={CurrencyDollar}/></div>
             <div>
-              <div class="text-xs uppercase font-semibold opacity-60">Free and Open Source</div>
-              <div>TheoManager is designed to be free so everyone can benefit from it</div>
+              <div class="text-xs uppercase font-semibold opacity-60">{$_('welcome.foss')}</div>
+              <div>{$_('welcome.foss-text')}</div>
             </div>
           </li>
           <li class="list-row">
             <div class="size-10 rounded-box"><Icon src={LockClosed}/></div>
             <div>
-              <div class="text-xs uppercase font-semibold opacity-60">Secure and Private</div>
-              <div>The app works in a secure and private way, all data is inside your device and your congregation colleagues.</div>
+              <div class="text-xs uppercase font-semibold opacity-60">{$_('welcome.secure-private')}</div>
+              <div>{$_('welcome.secure-private-text')}</div>
             </div>
           </li>
           <li class="list-row">
             <div class="size-10 rounded-box"><Icon src={Wifi}/></div>
             <div>
-              <div class="text-xs uppercase font-semibold opacity-60">Offline</div>
-              <div>You can manage your data even without having a network!</div>
+              <div class="text-xs uppercase font-semibold opacity-60">{$_('welcome.offline')}</div>
+              <div>{$_('welcome.offline-text')}</div>
             </div>
           </li>
           <li class="list-row">
             <div class="size-10 rounded-box"><Icon src={Bolt}/></div>
             <div>
-              <div class="text-xs uppercase font-semibold opacity-60">Fast</div>
-              <div>Designed to be fast, reliable and performant</div>
+              <div class="text-xs uppercase font-semibold opacity-60">{$_('welcome.fast')}</div>
+              <div>{$_('welcome.fast-text')}</div>
             </div>
           </li>
           <li class="list-row">
             <div class="size-10 rounded-box"><Icon src={DeviceTablet}/></div>
             <div>
-              <div class="text-xs uppercase font-semibold opacity-60">Cross Platform</div>
-              <div>You can use it everywhere! From a Mobile device to a Desktop one</div>
+              <div class="text-xs uppercase font-semibold opacity-60">{$_('welcome.cross-platform')}</div>
+              <div>{$_('welcome.cross-platform-text')}</div>
             </div>
           </li>
         </ul>
 
       {:else if stage === 3}
-        <h1 class="text-5xl font-bold">Create or Join a Congregation</h1>
+        <h1 class="text-5xl font-bold">{$_('welcome.create-join-title')}</h1>
         <div class="grid grid-cols-1 gap-4 py-6">
-          <button class="btn btn-accent" onclick={() => (document.getElementById('congregation_join') as HTMLDialogElement)?.showModal()}>Join</button>
-          <button class="btn btn-primary" onclick={() => (document.getElementById('congregation_create') as HTMLDialogElement)?.showModal()}>Create</button>
+          <button class="btn btn-accent p-10" onclick={() => (document.getElementById('congregation_join') as HTMLDialogElement)?.showModal()}>{$_('nav.join')}</button>
+          <button class="btn btn-primary p-10" onclick={() => (document.getElementById('congregation_create') as HTMLDialogElement)?.showModal()}>{$_('nav.create')}</button>
         </div>
       {/if}
       {#if stage > 1}
-        <button class="btn btn-secondary" onclick={() => stage--}>Back</button>
+        <button class="btn btn-secondary" onclick={() => stage--}>{$_('nav.back')}</button>
       {/if}
       {#if stage < 3}
-        <button class="btn btn-primary" onclick={() => stage++}>Next</button>
+        <button class="btn btn-primary" onclick={() => stage++}>{$_('nav.next')}</button>
       {/if}
     </div>
   </div>
-  <ul class="steps w-auto flex justify-center gap-2 absolute bottom-4 left-1/2 transform -translate-x-1/2">
-    <li class={stage >= 1 ? 'step step-primary' : 'step'}>Welcome</li>
-    <li class={stage >= 2 ? 'step step-primary' : 'step'}>Features</li>
-    <li class={stage >= 3 ? 'step step-primary' : 'step'}>Create/Join a Congregation</li>
-  </ul>
+  <div class="absolute bottom-4 left-1/2 w-screen flex justify-center gap-2 transform -translate-x-1/2">
+    <ul class="steps">
+      <li class={stage >= 1 ? 'step step-primary' : 'step'}>{$_('welcome.welcome')}</li>
+      <li class={stage >= 2 ? 'step step-primary' : 'step'}>{$_('welcome.features')}</li>
+      <li class={stage >= 3 ? 'step step-primary' : 'step'}>{$_('welcome.create-join')}</li>
+    </ul>
+  </div>
 </div>
 
 
@@ -111,12 +114,12 @@
       <br/>At least one uppercase letter
     </p>
 
-    <button class="btn btn-primary mt-2 w-full">Create congregation</button>
+    <button class="btn btn-primary mt-2 w-full">{$_('nav.create')}</button>
 
     <div class="modal-action">
       <form method="dialog">
         <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
-        <button class="btn btn-secondary">Close</button>
+        <button class="btn btn-secondary">{$_('nav.close')}</button>
       </form>
     </div>
   </div>
@@ -133,12 +136,12 @@
     <label class="label mt-2" for="join-password">Congregation Password:</label>
     <input type="password" class="input w-full" id="join-password" placeholder="Password" required bind:value={joinPassword}/>
 
-    <button class="btn btn-primary mt-2 w-full">Join congregation</button>
+    <button class="btn btn-primary mt-2 w-full">{$_('nav.join')}</button>
 
     <div class="modal-action">
       <form method="dialog">
         <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
-        <button class="btn btn-secondary w-full">Close</button>
+        <button class="btn btn-secondary w-full">{$_('nav.close')}</button>
       </form>
     </div>
   </div>
