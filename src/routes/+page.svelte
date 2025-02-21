@@ -1,6 +1,7 @@
 <script lang="ts">
   import { Icon, CurrencyDollar, LockClosed, Wifi, Bolt, DeviceTablet } from "svelte-hero-icons"
   import { _ } from 'svelte-i18n'
+  import { base } from '$app/paths'
 
   let congregationCode: string,
     congregationPassword: string,
@@ -114,7 +115,7 @@
       <br/>At least one uppercase letter
     </p>
 
-    <button class="btn btn-primary mt-2 w-full">{$_('nav.create')}</button>
+    <a class="btn btn-primary mt-2 w-full" href="{base}/app">{$_('nav.create')}</a>
 
     <div class="modal-action">
       <form method="dialog">
@@ -136,7 +137,7 @@
     <label class="label mt-2" for="join-password">Congregation Password:</label>
     <input type="password" class="input w-full" id="join-password" placeholder="Password" required bind:value={joinPassword}/>
 
-    <button class="btn btn-primary mt-2 w-full">{$_('nav.join')}</button>
+    <a class="btn btn-primary mt-2 w-full" href="{base}/app">{$_('nav.join')}</a>
 
     <div class="modal-action">
       <form method="dialog">
