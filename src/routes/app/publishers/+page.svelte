@@ -1,11 +1,13 @@
 <script lang="ts">
-    import { Icon, ListBullet, ArrowTopRightOnSquare, ArrowRightOnRectangle, MinusCircle } from "svelte-hero-icons"
+    import { Icon, ListBullet, ArrowTopRightOnSquare, ArrowRightOnRectangle, MinusCircle, ArrowUturnLeft } from "svelte-hero-icons"
     import { base } from '$app/paths'
 </script>
 
 <!-- Title -->
 <div class="p-4">
-    <div class="card bg-base-300 rounded-box grid h-20 place-items-center text-2xl">Publishers</div>
+    <div class="card bg-base-300 rounded-box grid h-20 place-items-center text-2xl">
+        Publishers
+    </div>
 </div>
 
 <!-- Menu -->

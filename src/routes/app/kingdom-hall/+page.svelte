@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Icon, Map, UserGroup, PencilSquare, WrenchScrewdriver, Trash } from "svelte-hero-icons"
+    import { Icon, Map, PencilSquare, WrenchScrewdriver, Trash } from "svelte-hero-icons"
     import { base } from '$app/paths'
 </script>
 
