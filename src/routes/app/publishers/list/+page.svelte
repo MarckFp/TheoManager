@@ -2,7 +2,7 @@
     import { Icon, Plus, Pencil, Trash, MagnifyingGlass, ArrowUturnLeft } from "svelte-hero-icons"
     import { base } from '$app/paths'
     import { _ } from 'svelte-i18n'
-    import { onMount, onDestroy } from "svelte";
+    import { onMount, onDestroy } from "svelte"
 
     let searchInput: HTMLInputElement | null = null
 
@@ -255,6 +255,9 @@
             right: 2rem;
             bottom: 8rem;
             z-index: 999;
+            width: 56px;
+            height: 56px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
         }
     </style>
 <!--{/if}-->

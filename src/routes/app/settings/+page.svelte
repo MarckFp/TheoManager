@@ -2,12 +2,12 @@
     import { Icon, ArrowUturnLeft } from "svelte-hero-icons"
     import { base } from '$app/paths'
     import { _ } from 'svelte-i18n'
+    import { theme, setTheme, availableThemes } from '$lib/utils/theme';
 
-    let theme: string;
+    let newTheme = $theme
 
-    function changeTheme() {
-        const html = document.documentElement;
-        html.setAttribute("data-theme", theme.toLowerCase());
+    function saveUserConfig() {
+        setTheme(newTheme)
     }
 </script>
 
@@ -28,36 +28,10 @@
         <legend class="fieldset-legend">User Settings</legend>
 
         <label class="fieldset-label" for="theme">Theme:</label>
-        <select class="select w-full" id="theme" bind:value={theme} on:change={changeTheme}>
-            <option selected>Dark</option>
-            <option>Light</option>
-            <option>Cupcake</option>
-            <option>Bumblebee</option>
-            <option>Emerald</option>
-            <option>Corporate</option>
-            <option>Synthwave</option>
-            <option>Retro</option>
-            <option>Cyberpunk</option>
-            <option>Valentine</option>
-            <option>Garden</option>
-            <option>Forest</option>
-            <option>Aqua</option>
-            <option>Lofi</option>
-            <option>Pastel</option>
-            <option>Fantasy</option>
-            <option>Wireframe</option>
-            <option>Black</option>
-            <option>Acid</option>
-            <option>Lemonade</option>
-            <option>Night</option>
-            <option>Coffe</option>
-            <option>Winter</option>
-            <option>Dim</option>
-            <option>Nord</option>
-            <option>Sunset</option>
-            <option>Caramellate</option>
-            <option>Abyss</option>
-            <option>Silk</option>
+        <select class="select w-full" id="theme" bind:value={newTheme}>
+            {#each availableThemes as theme}
+                <option value={theme}>{theme.charAt(0).toUpperCase() + theme.slice(1)}</option>
+            {/each}
         </select>
 
         <label class="fieldset-label" for="language">Language:</label>
@@ -66,7 +40,7 @@
             <option>Spanish</option>
         </select>
 
-        <button class="btn btn-primary mt-4">Save</button>
+        <button class="btn btn-primary mt-4" on:click={saveUserConfig}>Save</button>
     </fieldset>
 
     <fieldset class="fieldset w-full bg-base-200 border border-base-300 p-4 rounded-box">
