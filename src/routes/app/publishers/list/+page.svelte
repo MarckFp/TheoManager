@@ -38,19 +38,19 @@
 <div class="grid grid-cols-1 gap-4 p-2">
     <!-- Filters -->
     <div class="collapse collapse-arrow w-full bg-base-200 border border-base-300 p-1 rounded-box">
-        <div class="collapse-title font-semibold">Filters:</div>
+        <div class="collapse-title font-semibold">{$_('nav.filter')}:</div>
         <input type="checkbox" />
 
         <fieldset class="fieldset collapse-content">
-            <label class="fieldset-label">Appointment</label>
+            <label class="fieldset-label">{$_('nav.appointment')}</label>
             <div class="filter">
                 <input class="btn filter-reset" type="radio" name="appointment" aria-label="All"/>
-                <input class="btn" type="radio" name="appointment" aria-label="Elder"/>
-                <input class="btn" type="radio" name="appointment" aria-label="Ministerial servant"/>
-                <input class="btn" type="radio" name="appointment" aria-label="Not appointed"/>
+                <input class="btn" type="radio" name="appointment" aria-label={$_('appointments.elder')}/>
+                <input class="btn" type="radio" name="appointment" aria-label={$_('appointments.ministerial-servant')}/>
+                <input class="btn" type="radio" name="appointment" aria-label={$_('appointments.not-appointed')}/>
             </div>
 
-            <label class="fieldset-label">Publisher Type</label>
+            <label class="fieldset-label">{$_('person.publisher-type')}</label>
             <div class="filter">
                 <input class="btn filter-reset" type="radio" name="publisher-type" aria-label="All"/>
                 <input class="btn" type="radio" name="publisher-type" aria-label="Baptized"/>
@@ -62,11 +62,11 @@
 
             <div class="grid grid-cols-2 gap-2">
                 <div>
-                    <label class="fieldset-label">Gender</label>
+                    <label class="fieldset-label">{$_('person.gender')}</label>
                     <div class="filter">
-                        <input class="btn filter-reset" type="radio" name="gender" aria-label="All"/>
-                        <input class="btn" type="radio" name="gender" aria-label="Male"/>
-                        <input class="btn" type="radio" name="gender" aria-label="Female"/>
+                        <input class="btn filter-reset" type="radio" name="gender" aria-label={$_('nav.all')}/>
+                        <input class="btn" type="radio" name="gender" aria-label={$_('person.male')}/>
+                        <input class="btn" type="radio" name="gender" aria-label={$_('person.female')}/>
                     </div>
                 </div>
                 <div>
@@ -97,10 +97,10 @@
         <li class="list-row">
           <div><img class="size-10 rounded-box" src="https://img.daisyui.com/images/profile/demo/1@94.webp" alt=""/></div>
           <div>
-            <div>Dio Lupa</div>
+            <div class="font-semibold">Dio Lupa</div>
             <div class="text-xs font-semibold opacity-60">
-                <div class="badge badge-outline badge-primary badge-xs">Male</div>
-                <div class="badge badge-outline badge-success badge-xs">Elder</div>
+                <div class="badge badge-primary badge-xs">{$_('person.male')}</div>
+                <div class="badge badge-success badge-xs">{$_('appointments.elder')}</div>
             </div>
           </div>
           <button class="btn btn-square btn-primary btn-md">
@@ -114,9 +114,9 @@
         <li class="list-row">
           <div><img class="size-10 rounded-box" src="https://img.daisyui.com/images/profile/demo/4@94.webp" alt=""/></div>
           <div>
-            <div>Ellie Beilish</div>
+            <div class="font-semibold">Ellie Beilish</div>
             <div class="text-xs font-semibold opacity-60">
-                <div class="badge badge-outline badge-secondary badge-xs">Female</div>
+                <div class="badge badge-secondary badge-xs">{$_('person.female')}</div>
             </div>
           </div>
           <button class="btn btn-square btn-primary btn-md">
@@ -130,10 +130,10 @@
         <li class="list-row">
           <div><img class="size-10 rounded-box" src="https://img.daisyui.com/images/profile/demo/3@94.webp" alt=""/></div>
           <div>
-            <div>Sabrino Gardener</div>
+            <div class="font-semibold">Sabrino Gardener</div>
             <div class="text-xs font-semibold opacity-60">
-                <div class="badge badge-outline badge-primary badge-xs">Male</div>
-                <div class="badge badge-outline badge-warning badge-xs">Ministerial servant</div>
+                <div class="badge badge-primary badge-xs">{$_('person.male')}</div>
+                <div class="badge badge-warning badge-xs">{$_('appointments.ministerial-servant')}</div>
             </div>
           </div>
           <button class="btn btn-square btn-primary btn-md">

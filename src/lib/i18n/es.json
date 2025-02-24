@@ -14,6 +14,7 @@
         "weekend": "Fin de semana",
         "audio-video": "Audio y video",
         "attendants": "Acomodadores",
+        "appointment": "Nombramiento",
         "field-service-meetings": "Salidas al ministerio",
         "field-service-groups": "Grupos de predicación",
         "public-witnessing": "Predicación Pública",
@@ -38,7 +39,17 @@
         "no": "No",
         "loading": "Cargando",
         "create": "Crear",
-        "join": "Unirse"
+        "join": "Unirse",
+        "all": "Todo"
+    },
+    "person": {
+        "name": "Nombre",
+        "email": "Email",
+        "phone": "Telefono",
+        "male": "Hombre",
+        "female": "Mujer",
+        "gender": "Género",
+        "publisher-type": "Tipo de Publicador"
     },
     "appointments": {
         "elder": "Anciano",
@@ -52,7 +63,9 @@
         "microphone": "Microfonos",
         "attendant": "Acomodadores",
         "literature": "Literatura",
-        "accounts": "Contabilidad"
+        "accounts": "Contabilidad",
+        "not-appointed": "Sin nombramiento"
+
     },
     "home": {
         "welcome": "Bienvenido a"

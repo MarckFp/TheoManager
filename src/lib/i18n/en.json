@@ -14,6 +14,7 @@
         "weekend": "Weekend",
         "audio-video": "Audio & video",
         "attendants": "Attendants",
+        "appointment": "Appointment",
         "field-service-meetings": "Field Service Meetings",
         "field-service-groups": "Field Service Groups",
         "public-witnessing": "Public Witnessing",
@@ -38,7 +39,17 @@
         "no": "No",
         "loading": "Loading",
         "create": "Create",
-        "join": "Join"
+        "join": "Join",
+        "all": "All"
+    },
+    "person": {
+        "name": "Name",
+        "email": "Email",
+        "phone": "Phone",
+        "male": "Male",
+        "female": "Female",
+        "gender": "Gender",
+        "publisher-type": "Publisher Type"
     },
     "appointments": {
         "elder": "Elder",
@@ -53,8 +64,7 @@
         "attendant": "Attendant",
         "literature": "Literature",
         "accounts": "Accounts",
-        "cleaning": "Cleaning",
-        "maintenance": "Maintenance"
+        "not-appointed": "Not Appointed"
     },
     "home": {
         "welcome": "Welcome to"
