@@ -2,6 +2,8 @@
   import { Icon, CurrencyDollar, LockClosed, Wifi, Bolt, DeviceTablet } from "svelte-hero-icons"
   import { _ } from 'svelte-i18n'
   import { base } from '$app/paths'
+  import { onMount } from 'svelte';
+  import { goto } from '$app/navigation';
   import { createCongregation } from '$lib/models/congregation'
 
   let congregationAddress: string,
@@ -26,6 +28,13 @@
       password: congregationPassword
     })
   }
+
+  onMount(() => {
+    const congregationID = localStorage.getItem('congregationID')
+    if (congregationID) {
+      goto(`${base}/app`)
+    }
+  })
 
 </script>
 

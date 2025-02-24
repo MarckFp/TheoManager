@@ -27,18 +27,23 @@ export async function createCongregation(congregationData: ICongregation) {
         id: congregationID,
         name: congregationData.name,
         password: congregationData.password,
-        jw_code: congregationData.jw_code,
-        address: congregationData.address,
-        city: congregationData.city,
-        zipcode: congregationData.zipcode,
-        country: congregationData.country
+        jw_code: congregationData.jw_code || "",
+        address: congregationData.address || "",
+        city: congregationData.city || "",
+        zipcode: congregationData.zipcode || "",
+        country: congregationData.country || ""
     });
+
+    localStorage.setItem('congregationID', congregationID);
 
     return congregationID;
 }
 
 //UPDATE
 export async function updateCongregation(congregationData: ICongregation) {
+    if (!congregationData.id) {
+        throw new Error("Congregation ID is required for update.");
+    }
     const congregation = gun.get("congregations").get(congregationData.id);
 
     congregation.put({

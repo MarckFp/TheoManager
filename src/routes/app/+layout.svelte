@@ -1,8 +1,10 @@
 <script lang="ts">
-    import Dock from '$lib/components/Dock.svelte';
-//    import NavBar from '$lib/components/NavBar.svelte';
-    import { isMobile } from '$lib/stores/mobile';
-    import { onNavigate } from '$app/navigation';
+    import Dock from '$lib/components/Dock.svelte'
+//    import NavBar from '$lib/components/NavBar.svelte'
+    import { isMobile } from '$lib/stores/mobile'
+    import { onNavigate } from '$app/navigation'
+    import { onMount } from 'svelte'
+    import { goto } from '$app/navigation'
 
     onNavigate((navigation) => {
         if (!document.startViewTransition) return;
@@ -16,6 +18,14 @@
                 await navigation.complete;
             });
         });
+    });
+
+    onMount(() => {
+        const congregationID = localStorage.getItem('congregationID');
+        if (!congregationID) {
+        // If there is no congregation, send the user back to the landing page.
+        goto('/');
+        }
     });
 </script>
 
