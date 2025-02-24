@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Icon, ListBullet, ArrowTopRightOnSquare, MinusCircle, ArrowUturnLeft, DocumentText } from "svelte-hero-icons"
+    import { Icon, ListBullet, ArrowTopRightOnSquare, MinusCircle, Sparkles, DocumentText } from "svelte-hero-icons"
     import { base } from '$app/paths'
     import { _ } from 'svelte-i18n'
 </script>
@@ -31,5 +31,10 @@
     <a href="{base}/app/publishers/absences" class="btn btn-secondary p-18 text-lg">
         <div>{$_("nav.absences")}</div>
         <div><Icon src="{MinusCircle}" outline size="26" /></div>
+    </a>
+
+    <a href="{base}/app/publishers/privileges" class="btn btn-info p-16 text-lg col-span-2">
+        <div>{$_("nav.privileges")}</div>
+        <div><Icon src="{Sparkles}" outline size="26" /></div>
     </a>
 </div>

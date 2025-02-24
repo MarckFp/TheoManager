@@ -25,9 +25,10 @@
 <!-- Settings -->
 <div class="w-full p-4">
     <fieldset class="fieldset w-full bg-base-200 border border-base-300 p-4 rounded-box">
+        <legend class="fieldset-legend">User Settings</legend>
 
-        <label class="fieldset-label">Theme:</label>
-        <select class="select w-full" bind:value={theme} on:change={changeTheme}>
+        <label class="fieldset-label" for="theme">Theme:</label>
+        <select class="select w-full" id="theme" bind:value={theme} on:change={changeTheme}>
             <option selected>Dark</option>
             <option>Light</option>
             <option>Cupcake</option>
@@ -59,12 +60,48 @@
             <option>Silk</option>
         </select>
 
-        <label class="fieldset-label">Language:</label>
-        <select class="select w-full">
-            <option>English</option>
+        <label class="fieldset-label" for="language">Language:</label>
+        <select class="select w-full" id="language">
+            <option selected>English</option>
             <option>Spanish</option>
         </select>
-        
-        <button class="btn btn-primary mt-4">Login</button>
+
+        <button class="btn btn-primary mt-4">Save</button>
+    </fieldset>
+
+    <fieldset class="fieldset w-full bg-base-200 border border-base-300 p-4 rounded-box">
+        <legend class="fieldset-legend">Congregation Settings</legend>
+
+        <label class="fieldset-label" for="congregation-name">Congregation Name:</label>
+        <input type="text" class="input w-full" id="congregation-name" placeholder="Congregation Name" />
+
+        <span class="fieldset-label mt-4">Week Order:</span>
+        <div class="grid grid-cols-2 gap-4">
+            <div class="grid grid-cols-2">
+                <label class="fieldset-label" for="monday-order">Monday</label>
+                <input type="radio" name="week-order" id="monday-order" class="radio radio-primary" checked />
+            </div>
+            <div class="grid grid-cols-2">
+                <label class="fieldset-label" for="sunday-order">Sunday</label>
+                <input type="radio" name="week-order" id="sunday-order" class="radio radio-primary" />
+            </div>
+        </div>
+
+        <span class="fieldset-label mt-4">Name Order:</span>
+        <div class="grid grid-cols-2 gap-4">
+            <div class="grid grid-cols-2">
+                <label class="fieldset-label" for="firstname-order">Firstname</label>
+                <input type="radio" name="name-order" id="firstname-order" class="radio radio-secondary" checked />
+            </div>
+            <div class="grid grid-cols-2">
+                <label class="fieldset-label" for="lastname-order">Lastname</label>
+                <input type="radio" name="name-order" id="lastname-order" class="radio radio-secondary" />
+            </div>
+        </div>
+
+        <label class="fieldset-label mt-4" for="overseer-name">Circuit Overseer name:</label>
+        <input type="text" class="input w-full" id="overseer-name" placeholder="Circuit Overseer Name" />
+
+        <button class="btn btn-primary mt-4">Save</button>
     </fieldset>
 </div>
