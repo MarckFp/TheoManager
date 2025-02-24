@@ -1,7 +1,6 @@
-import Gun from 'gun'
-import 'gun/sea'
+import { gun } from '$lib/db'
 
-interface ICongregation {
+export interface ICongregation {
     id?: string;
     name: string;
     password: string;
@@ -10,11 +9,9 @@ interface ICongregation {
     city?: string;
     zipcode?: string;
     country?: string;
+    name_order: string;
+    week_order: string;
 }
-
-const gun = Gun({
-    peers: []
-})
 
 //CREATE
 export async function createCongregation(congregationData: ICongregation) {
@@ -31,7 +28,9 @@ export async function createCongregation(congregationData: ICongregation) {
         address: congregationData.address || "",
         city: congregationData.city || "",
         zipcode: congregationData.zipcode || "",
-        country: congregationData.country || ""
+        country: congregationData.country || "",
+        name_order: congregationData.name_order || "firstname",
+        week_order: congregationData.week_order || "monday"
     });
 
     localStorage.setItem('congregationID', congregationID);

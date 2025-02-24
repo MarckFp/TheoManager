@@ -29,6 +29,10 @@
     })
   }
 
+  function join() {
+    
+  }
+
   onMount(() => {
     const congregationID = localStorage.getItem('congregationID')
     if (congregationID) {

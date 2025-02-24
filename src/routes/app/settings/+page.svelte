@@ -3,12 +3,23 @@
     import { base } from '$app/paths'
     import { _ } from 'svelte-i18n'
     import { theme, setTheme, availableThemes } from '$lib/stores/theme'
+    import { getCongregation } from '$lib/models/congregation'
+    import { onMount } from "svelte"
 
     let newTheme = $theme
 
     function saveUserConfig() {
         setTheme(newTheme)
     }
+
+    let congregation = {}
+
+    onMount(async () => {
+        const congregationID = localStorage.getItem('congregationID')
+        if (congregationID) {
+            congregation = await getCongregation(congregationID)
+        }
+    })
 </script>
 
 <!-- Title -->
@@ -40,14 +51,14 @@
             <option>Spanish</option>
         </select>
 
-        <button class="btn btn-primary mt-4" on:click={saveUserConfig}>Save</button>
+        <button class="btn btn-primary mt-4" on:click={saveUserConfig}>{$_('nav.save')}</button>
     </fieldset>
 
     <fieldset class="fieldset w-full bg-base-200 border border-base-300 p-4 rounded-box">
         <legend class="fieldset-legend">Congregation Settings</legend>
 
         <label class="fieldset-label" for="congregation-name">Congregation Name:</label>
-        <input type="text" class="input w-full" id="congregation-name" placeholder="Congregation Name" />
+        <input type="text" class="input w-full" id="congregation-name" placeholder="Congregation Name" bind:value={congregation.name}/>
 
         <span class="fieldset-label mt-4">Week Order:</span>
         <div class="grid grid-cols-2 gap-4">
@@ -76,6 +87,6 @@
         <label class="fieldset-label mt-4" for="overseer-name">Circuit Overseer name:</label>
         <input type="text" class="input w-full" id="overseer-name" placeholder="Circuit Overseer Name" />
 
-        <button class="btn btn-primary mt-4">Save</button>
+        <button class="btn btn-primary mt-4">{$_('nav.save')}</button>
     </fieldset>
 </div>
