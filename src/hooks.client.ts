@@ -1,4 +1,4 @@
-import { theme } from '$lib/utils/theme';
+import { theme } from '$lib/stores/theme';
 
 export const handleClientHooks = () => {
     theme.subscribe((value) => {

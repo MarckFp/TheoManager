@@ -3,7 +3,7 @@
   import { page } from '$app/state'
   import { base } from '$app/paths'
   import { _ } from 'svelte-i18n'
-  import { isMobile } from "$lib/utils/mobile"
+  import { isMobile } from "$lib/stores/mobile"
 </script>
 
 <div class="dock dock-xl text-center" id="dock-menu">

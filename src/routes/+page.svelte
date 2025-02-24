@@ -2,15 +2,30 @@
   import { Icon, CurrencyDollar, LockClosed, Wifi, Bolt, DeviceTablet } from "svelte-hero-icons"
   import { _ } from 'svelte-i18n'
   import { base } from '$app/paths'
+  import { createCongregation } from '$lib/models/congregation'
 
-  let congregationCode: string,
+  let congregationAddress: string,
     congregationPassword: string,
-    congregationData: string,
+    congregationCity: string,
+    congregationCountry: string,
+    congregationZipcode: string,
     congregationName: string,
     jwCode: string,
     joinCode: string,
-    joinPassword: string;
-  let stage = 1;
+    joinPassword: string,
+    stage = 1;
+
+  function create() {
+    createCongregation({
+      address: congregationAddress,
+      city: congregationCity,
+      country: congregationCountry,
+      zipcode: congregationZipcode,
+      name: congregationName,
+      jw_code: jwCode,
+      password: congregationPassword
+    })
+  }
 
 </script>
 
@@ -100,8 +115,17 @@
     <label class="label mt-2" for="congregation-name">Congregation Name:</label>
     <input type="text" class="input w-full" id="congregation-name" placeholder="New World - North" required bind:value={congregationName}/>
 
-    <label class="label mt-2" for="congregation-code">Congregation Code:</label>
-    <input type="text" class="input w-full" id="congregation-code" placeholder="Code" required bind:value={congregationCode}/>
+    <label class="label mt-2" for="congregation-address">Congregation Address:</label>
+    <input type="text" class="input w-full" id="congregation-address" placeholder="Address" required bind:value={congregationAddress}/>
+
+    <label class="label mt-2" for="congregation-city">Congregation City:</label>
+    <input type="text" class="input w-full" id="congregation-city" placeholder="City" required bind:value={congregationCity}/>
+
+    <label class="label mt-2" for="congregation-country">Congregation Country:</label>
+    <input type="text" class="input w-full" id="congregation-country" placeholder="Country" required bind:value={congregationCountry}/>
+
+    <label class="label mt-2" for="congregation-zipcode">Congregation Zipcode:</label>
+    <input type="text" class="input w-full" id="congregation-zipcode" placeholder="Zipcode" required bind:value={congregationZipcode}/>
 
     <label class="label mt-2" for="jw-code">Congregation JW Code:</label>
     <input type="text" class="input w-full" id="jw-code" placeholder="JW Code" bind:value={jwCode}/>
@@ -115,7 +139,7 @@
       <br/>At least one uppercase letter
     </p>
 
-    <a class="btn btn-primary mt-2 w-full" href="{base}/app">{$_('nav.create')}</a>
+    <a class="btn btn-primary mt-2 w-full" href="{base}/app" onclick={create}>{$_('nav.create')}</a>
 
     <div class="modal-action">
       <form method="dialog">

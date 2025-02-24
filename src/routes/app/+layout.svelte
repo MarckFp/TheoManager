@@ -1,7 +1,7 @@
 <script lang="ts">
     import Dock from '$lib/components/Dock.svelte';
 //    import NavBar from '$lib/components/NavBar.svelte';
-    import { isMobile } from '$lib/utils/mobile';
+    import { isMobile } from '$lib/stores/mobile';
     import { onNavigate } from '$app/navigation';
 
     onNavigate((navigation) => {

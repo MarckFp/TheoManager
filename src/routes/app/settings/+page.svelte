@@ -2,7 +2,7 @@
     import { Icon, ArrowUturnLeft } from "svelte-hero-icons"
     import { base } from '$app/paths'
     import { _ } from 'svelte-i18n'
-    import { theme, setTheme, availableThemes } from '$lib/utils/theme';
+    import { theme, setTheme, availableThemes } from '$lib/stores/theme'
 
     let newTheme = $theme
 
