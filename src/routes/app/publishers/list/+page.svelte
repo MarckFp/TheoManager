@@ -72,7 +72,7 @@
                 <div>
                     <label class="fieldset-label" for="field-service-group">Field Service Group</label>
                     <select class="select" id="field-service-group">
-                        <option disabled selected>Pick a Service Group</option>
+                        <option selected>All Groups</option>
                         <option>Group 1</option>
                         <option>Group 2</option>
                         <option>Group 3</option>
