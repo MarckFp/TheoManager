@@ -16,8 +16,8 @@
         <div><Icon src="{Map}" outline size="26" /></div>
     </a>
 
-    <a href="{base}/app/kingdom-hall/attendance" class="btn btn-accent p-18 text-lg">
-        <div>{$_('nav.attendance')}</div>
+    <a href="{base}/app/kingdom-hall/custom-assignment" class="btn btn-accent p-18 text-lg">
+        <div>{$_('nav.custom-assignments')}</div>
         <div><Icon src="{PencilSquare}" outline size="26" /></div>
     </a>
 

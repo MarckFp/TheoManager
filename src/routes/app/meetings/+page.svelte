@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Icon, SpeakerWave, Calendar, CalendarDays } from "svelte-hero-icons"
+    import { Icon, SpeakerWave, Calendar, CalendarDays, PencilSquare, Ticket } from "svelte-hero-icons"
     import { base } from '$app/paths'
     import { _ } from 'svelte-i18n'
 </script>
@@ -21,8 +21,18 @@
         <div><Icon src="{Calendar}" outline size="26" /></div>
     </a>
 
-    <a href="{base}/app/meetings/av-attendant" class="btn btn-success p-14 text-lg col-span-2">
-        <div>{$_('nav.av-attendant')}</div>
+    <a href="{base}/app/meetings/attendance" class="btn btn-success p-18 text-lg">
+        <div>{$_('nav.attendance')}</div>
+        <div><Icon src="{PencilSquare}" outline size="26" /></div>
+    </a>
+
+    <a href="{base}/app/meetings/audio-video" class="btn btn-secondary p-18 text-lg">
+        <div>{$_('nav.audio-video')}</div>
         <div><Icon src="{SpeakerWave}" outline size="26" /></div>
+    </a>
+
+    <a href="{base}/app/meetings/attendant" class="btn btn-info p-16 text-lg col-span-2">
+        <div>{$_('nav.attendants')}</div>
+        <div><Icon src="{Ticket}" outline size="26" /></div>
     </a>
 </div>
