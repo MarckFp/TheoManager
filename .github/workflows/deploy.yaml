@@ -85,19 +85,19 @@ jobs:
         with:
           ref: 'main'
 
-#      - name: Set Version 📝
-#        shell: bash
-#        env:
-#          RELEASE_TAG: ${{ github.ref_name }}
-#        run: |
-#          mv package.json package.json.orig
-#          sed "s/\"version\": \"0\\.0\\.0-git\"/\"version\": \"${RELEASE_TAG##*\/v}\"/" package.json.orig >package.json
-#
-#          mv src-tauri/Cargo.toml src-tauri/Cargo.toml.orig
-#          sed "s/0\\.0\\.0-git/${RELEASE_TAG##*\/v}/" src-tauri/Cargo.toml.orig >src-tauri/Cargo.toml
-#
-#          mv src-tauri/tauri.conf.json src-tauri/tauri.conf.json.orig
-#          sed "s/\"version\": \"0\\.0\\.0-git\"/\"version\": \"${RELEASE_TAG##*\/v}\"/" src-tauri/tauri.conf.json.orig >src-tauri/tauri.conf.json
+      - name: Set Version 📝
+        shell: bash
+        env:
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          mv package.json package.json.orig
+          sed "s/\"version\": \"0\\.0\\.0-git\"/\"version\": \"${RELEASE_TAG##*\/v}\"/" package.json.orig >package.json
+
+          mv src-tauri/Cargo.toml src-tauri/Cargo.toml.orig
+          sed "s/0\\.0\\.0-git/${RELEASE_TAG##*\/v}/" src-tauri/Cargo.toml.orig >src-tauri/Cargo.toml
+
+          mv src-tauri/tauri.conf.json src-tauri/tauri.conf.json.orig
+          sed "s/\"version\": \"0\\.0\\.0-git\"/\"version\": \"${RELEASE_TAG##*\/v}\"/" src-tauri/tauri.conf.json.orig >src-tauri/tauri.conf.json
 
       - name: Setup Java ☕
         if: ${{ matrix.name == 'Android 🤖'}}
@@ -123,21 +123,13 @@ jobs:
             sudo apt update -y && sudo apt install libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf xdg-utils -y
           fi
 
-          bun install
-          cargo binstall tauri-cli -y --version $TAURI_VERSION --locked
-        
           if [[ "${{ matrix.name }}" == "Android 🤖" ]]; then
             sdkmanager "ndk;$NDK_VERSION"
             echo "NDK_HOME=$ANDROID_SDK_ROOT/ndk/$NDK_VERSION" >> $GITHUB_ENV
-            export NDK_HOME="$ANDROID_SDK_ROOT/ndk/$NDK_VERSION"
-            bun run tauri android init --ci
-
-            git config --global user.name 'MarckFp'
-            git config --global user.email 'MarckFp@users.noreply.github.com'
-            git add .
-            git commit -am "Android init"
-            git push
           fi
+
+          bun install
+          cargo binstall tauri-cli -y --version $TAURI_VERSION --locked
 
       - name: Setup Rust Targets 🦀
         run: rustup target add wasm32-unknown-unknown ${{ matrix.target }}
@@ -257,7 +249,7 @@ jobs:
               ;;
 
             "Android 🤖")
-              mv src-tauri/gen/android/app/build/outputs/apk/universal/release/app-universal-release-unsigned.apk src-tauri/gen/android/app/build/outputs/apk/universal/release/TheoManager_${{ github.ref_name }}.apk
+              mv src-tauri/gen/android/app/build/outputs/apk/universal/release/app-universal-release.apk src-tauri/gen/android/app/build/outputs/apk/universal/release/TheoManager_${{ github.ref_name }}.apk
               mv src-tauri/gen/android/app/build/outputs/bundle/universalRelease/app-universal-release.aab src-tauri/gen/android/app/build/outputs/bundle/universalRelease/TheoManager_${{ github.ref_name }}.aab
               gh release upload ${{ github.ref_name }} src-tauri/gen/android/app/build/outputs/apk/universal/release/TheoManager_${{ github.ref_name }}.apk \
                 src-tauri/gen/android/app/build/outputs/bundle/universalRelease/TheoManager_${{ github.ref_name }}.aab
