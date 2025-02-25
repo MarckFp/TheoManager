@@ -1,7 +1,7 @@
 <script lang="ts">
-    import { _ } from 'svelte-i18n'
-    import Header from "$lib/components/Header.svelte";
+  import { _ } from "svelte-i18n"
+  import Header from "$lib/components/Header.svelte"
 </script>
 
 <!-- Title -->
-<Header title="{$_('nav.midweek')}" path="meetings"/>
+<Header title={$_("nav.midweek")} path="meetings" />

@@ -1,9 +1,9 @@
-import { theme } from '$lib/stores/theme';
+import { theme } from "$lib/stores/theme"
 
 export const handleClientHooks = () => {
-    theme.subscribe((value) => {
-        document.documentElement.setAttribute('data-theme', value);
-    });
-};
+  theme.subscribe((value) => {
+    document.documentElement.setAttribute("data-theme", value)
+  })
+}
 
-handleClientHooks();
+handleClientHooks()
