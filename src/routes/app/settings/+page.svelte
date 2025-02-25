@@ -12,6 +12,10 @@
         setTheme(newTheme)
     }
 
+    function saveCongregationConfig() {
+        return;
+    }
+
     let congregation = {}
 
     onMount(async () => {
