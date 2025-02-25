@@ -1,6 +1,7 @@
 <script lang="ts">
     import Dock from '$lib/components/Dock.svelte'
 //    import NavBar from '$lib/components/NavBar.svelte'
+    import Toast from "$lib/components/Toast.svelte"
     import { isMobile } from '$lib/stores/mobile'
     import { onNavigate } from '$app/navigation'
     import { onMount } from 'svelte'
@@ -31,14 +32,22 @@
 
 <main>
     {#if $isMobile}
+        <div class="pb-20">
+            <slot/>
+        </div>
         <Dock />
     {:else}
+        <div class="pb-20">
+            <slot />
+        </div>
         <Dock />
         <!-- TODO: Add a view adapted for Desktop -->
         <!--<NavBar />-->
+        <!-- <slot /> -->
     {/if}
-    <slot />
 </main>
+
+<Toast />
 
 <style>
     @keyframes fade-in {

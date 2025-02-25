@@ -3,26 +3,49 @@
     import { base } from '$app/paths'
     import { _ } from 'svelte-i18n'
     import { theme, setTheme, availableThemes } from '$lib/stores/theme'
-    import { getCongregation } from '$lib/models/congregation'
+    import { getCongregation, updateCongregation, type Congregation } from '$lib/models/congregation'
+    import { getSettings, updateSettings, type Settings } from "$lib/models/settings"
     import { onMount } from "svelte"
+    import { message, type } from '$lib/stores/toast';
 
     let newTheme = $theme
+    let settings: Settings | null
+    let congregation: Congregation | null
+
+    $: {
+        getCongregation()?.then(result => {
+            congregation = result;
+        });
+
+        getSettings()?.then(result => {
+            settings = result;
+        });
+    }
 
     function saveUserConfig() {
         setTheme(newTheme)
+        $message = 'User settings saved successfully!';
     }
 
-    function saveCongregationConfig() {
-        return;
-    }
+    async function saveCongregationConfig() {
+        try {
+            if (congregation) {
+                await updateCongregation(congregation);
+            }
+            if (settings) {
+                await updateSettings(settings);
+            }
 
-    let congregation = {}
+            $message = 'Congregation settings saved successfully!';
+        } catch (error) {
+            $message = 'Failed to save congregation settings';
+            $type = 'error';
+        }
+    }
 
     onMount(async () => {
-        const congregationID = localStorage.getItem('congregationID')
-        if (congregationID) {
-            congregation = await getCongregation(congregationID)
-        }
+        congregation = await getCongregation()
+        settings = await getSettings()
     })
 </script>
 
@@ -58,39 +81,45 @@
         <button class="btn btn-primary mt-4" on:click={saveUserConfig}>{$_('nav.save')}</button>
     </fieldset>
 
-    <fieldset class="fieldset w-full bg-base-200 border border-base-300 p-4 rounded-box">
-        <legend class="fieldset-legend">Congregation Settings</legend>
+    {#if congregation && settings}
+        <fieldset class="fieldset w-full bg-base-200 border border-base-300 p-4 rounded-box">
+            <legend class="fieldset-legend">Congregation Settings</legend>
 
-        <label class="fieldset-label" for="congregation-name">Congregation Name:</label>
-        <input type="text" class="input w-full" id="congregation-name" placeholder="Congregation Name" bind:value={congregation.name}/>
 
-        <span class="fieldset-label mt-4">Week Order:</span>
-        <div class="grid grid-cols-2 gap-4">
-            <div class="grid grid-cols-2">
-                <label class="fieldset-label" for="monday-order">Monday</label>
-                <input type="radio" name="week-order" id="monday-order" class="radio radio-primary" checked />
+            <label class="fieldset-label" for="congregation-id">Congregation ID:</label>
+            <input type="text" class="input w-full" id="congregation-id" value={localStorage.getItem('congregationID')} disabled/>
+
+            <label class="fieldset-label" for="congregation-name">Congregation Name:</label>
+            <input type="text" class="input w-full" id="congregation-name" placeholder="Congregation Name" bind:value={congregation.name}/>
+
+            <span class="fieldset-label mt-4">Week Order:</span>
+            <div class="grid grid-cols-2 gap-4">
+                <div class="grid grid-cols-2">
+                    <label class="fieldset-label" for="monday-order">Monday</label>
+                    <input type="radio" name="week-order" id="monday-order" class="radio radio-primary" bind:group={settings.week_order} value="monday" />
+                </div>
+                <div class="grid grid-cols-2">
+                    <label class="fieldset-label" for="sunday-order">Sunday</label>
+                    <input type="radio" name="week-order" id="sunday-order" class="radio radio-primary" bind:group={settings.week_order} value="sunday" />
+                </div>
             </div>
-            <div class="grid grid-cols-2">
-                <label class="fieldset-label" for="sunday-order">Sunday</label>
-                <input type="radio" name="week-order" id="sunday-order" class="radio radio-primary" />
-            </div>
-        </div>
 
-        <span class="fieldset-label mt-4">Name Order:</span>
-        <div class="grid grid-cols-2 gap-4">
-            <div class="grid grid-cols-2">
-                <label class="fieldset-label" for="firstname-order">Firstname</label>
-                <input type="radio" name="name-order" id="firstname-order" class="radio radio-secondary" checked />
+            <span class="fieldset-label mt-4">Name Order:</span>
+            <div class="grid grid-cols-2 gap-4">
+                <div class="grid grid-cols-2">
+                    <label class="fieldset-label" for="firstname-order">Firstname</label>
+                    <input type="radio" name="name-order" id="firstname-order" class="radio radio-secondary" bind:group={settings.name_order} value="firstname"/>
+                </div>
+                <div class="grid grid-cols-2">
+                    <label class="fieldset-label" for="lastname-order">Lastname</label>
+                    <input type="radio" name="name-order" id="lastname-order" class="radio radio-secondary" bind:group={settings.name_order} value="lastname"/>
+                </div>
             </div>
-            <div class="grid grid-cols-2">
-                <label class="fieldset-label" for="lastname-order">Lastname</label>
-                <input type="radio" name="name-order" id="lastname-order" class="radio radio-secondary" />
-            </div>
-        </div>
 
-        <label class="fieldset-label mt-4" for="overseer-name">Circuit Overseer name:</label>
-        <input type="text" class="input w-full" id="overseer-name" placeholder="Circuit Overseer Name" />
+            <label class="fieldset-label mt-4" for="overseer-name">Circuit Overseer name:</label>
+            <input type="text" class="input w-full" id="overseer-name" placeholder="Circuit Overseer Name" bind:value={settings.circuit_overseer_name}/>
 
-        <button class="btn btn-primary mt-4">{$_('nav.save')}</button>
-    </fieldset>
+            <button class="btn btn-primary mt-4" on:click={saveCongregationConfig}>{$_('nav.save')}</button>
+        </fieldset>
+    {/if}
 </div>
