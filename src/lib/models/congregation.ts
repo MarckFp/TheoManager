@@ -10,6 +10,10 @@ export interface Congregation {
     city?: string;
     zipcode?: string;
     country?: string;
+    midweek_day?: string;
+    midweek_time?: string;
+    weekend_day?: string;
+    weekend_time?: string;
 }
 
 //CREATE
@@ -29,7 +33,11 @@ export async function createCongregation(congregationData: Congregation) {
             address: congregationData.address ?? "",
             city: congregationData.city ?? "",
             zipcode: congregationData.zipcode ?? "",
-            country: congregationData.country ?? ""
+            country: congregationData.country ?? "",
+            midweek_day: congregationData.midweek_day ?? "",
+            midweek_time: congregationData.midweek_time ?? "",
+            weekend_day: congregationData.weekend_day ?? "",
+            weekend_time: congregationData.weekend_time ?? ""
         });
 
         localStorage.setItem('congregationID', congregationID);
@@ -69,7 +77,11 @@ export async function updateCongregation(congregationData: Congregation) {
             address: congregationData.address ?? "",
             city: congregationData.city ?? "",
             zipcode: congregationData.zipcode ?? "",
-            country: congregationData.country ?? ""
+            country: congregationData.country ?? "",
+            midweek_day: congregationData.midweek_day ?? "",
+            midweek_time: congregationData.midweek_time ?? "",
+            weekend_day: congregationData.weekend_day ?? "",
+            weekend_time: congregationData.weekend_time ?? ""
         });
         return congregationID;
     } catch (error) {

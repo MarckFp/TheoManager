@@ -23,7 +23,7 @@
 
     <a
       href="{base}/app"
-      class={page.url.pathname === `${base}/app` ? 'dock-active' : ''}>
+      class={page.url.pathname === `${base}/app` || page.url.pathname.startsWith(`${base}/app/settings`) ? 'dock-active' : ''}>
       <Icon src="{Squares2x2}" outline size="24" />
       {#if !$isMobile}<span class="dock-label">{$_('nav.home')}</span>{/if}
     </a>

@@ -144,13 +144,7 @@
     <input type="text" class="input w-full" id="jw-code" placeholder="JW Code" bind:value={jwCode}/>
 
     <label class="label mt-2" for="congregation-password">Congregation Password:</label>
-    <input type="password" class="input validator w-full" id="congregation-password" placeholder="Password" required minlength="8" pattern="(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])." bind:value={congregationPassword}/>
-    <p class="validator-hint">
-      Must be more than 8 characters, including
-      <br/>At least one number
-      <br/>At least one lowercase letter
-      <br/>At least one uppercase letter
-    </p>
+    <input type="password" class="input w-full" id="congregation-password" placeholder="Password" required minlength="8" pattern="(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])." bind:value={congregationPassword}/>
 
     <a class="btn btn-primary mt-2 w-full" href="{base}/app" onclick={create}>{$_('nav.create')}</a>
 

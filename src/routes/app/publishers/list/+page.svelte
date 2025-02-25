@@ -1,8 +1,8 @@
 <script lang="ts">
-    import { Icon, Plus, Pencil, Trash, MagnifyingGlass, ArrowUturnLeft } from "svelte-hero-icons"
-    import { base } from '$app/paths'
+    import { Icon, Plus, Pencil, Trash, MagnifyingGlass } from "svelte-hero-icons"
     import { _ } from 'svelte-i18n'
     import { onMount, onDestroy } from "svelte"
+    import Header from "$lib/components/Header.svelte";
 
     let searchInput: HTMLInputElement | null = null
 
@@ -25,15 +25,7 @@
 </script>
 
 <!-- Title -->
-<div class="p-4">
-    <div class="card bg-base-300 rounded-box items-center h-20 grid grid-cols-3 gap-16">
-        <a class="btn btn-circle btn-secondary ml-4" href="{base}/app/publishers">
-            <Icon src="{ArrowUturnLeft}" outline size="26" />
-        </a>
-        <span class="text-2xl justify-center text-center font-semibold">{$_("nav.list")}</span>
-        <div class="w-10"></div>
-    </div>
-</div>
+<Header title="{$_('nav.list')}" path="publishers"/>
 
 <div class="grid grid-cols-1 gap-4 p-2">
     <!-- Filters -->

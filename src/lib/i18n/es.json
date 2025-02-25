@@ -15,6 +15,7 @@
         "audio-video": "Audio y video",
         "attendants": "Acomodadores",
         "appointment": "Nombramiento",
+        "congregation": "Congregación",
         "field-service-meetings": "Salidas al ministerio",
         "field-service-groups": "Grupos de predicación",
         "public-witnessing": "Predicación Pública",
@@ -40,9 +41,35 @@
         "loading": "Cargando",
         "create": "Crear",
         "join": "Unirse",
-        "all": "Todo"
+        "all": "Todo",
+        "copy": "Copiar"
+    },
+    "weekdays": {
+        "monday": "Lunes",
+        "tuesday": "Martes",
+        "wednesday": "Miercoles",
+        "thursday": "Jueves",
+        "friday": "Viernes",
+        "saturday": "Sábado",
+        "sunday": "Domingo"
+    },
+    "months": {
+        "january": "Enero",
+        "febuary": "Febrero",
+        "march": "Marzo",
+        "april": "Abril",
+        "may": "Mayo",
+        "june": "Junio",
+        "july": "Julio",
+        "august": "Agosto",
+        "september": "Septiembre",
+        "october": "Octubre",
+        "november": "Noviembre",
+        "december": "Diciembre"
     },
     "person": {
+        "firstname": "Nombre",
+        "lastname": "Apellidos",
         "name": "Nombre",
         "email": "Email",
         "phone": "Telefono",
@@ -87,5 +114,20 @@
         "welcome": "Bienvenido",
         "create-join": "Crear/Unirse a una congregación",
         "create-join-title": "Crear o Unirse a una congregación"
+    },
+    "settings": {
+        "congregation-settings": "Ajustes de la congregación",
+        "user-settings": "Ajustes del usuario",
+        "congregation-name": "Nombre de la congregación",
+        "congregation-address": "Dirección de la congregación",
+        "congregation-id": "ID de la congregación",
+        "congregation-city": "Ciudad de la congregación",
+        "congregation-zipcode": "Código postal de la congregación",
+        "congregation-country": "País de la congregación",
+        "congregation-jw-code": "Código de JW de la congregación",
+        "congregation-password": "Contraseña de la congregación",
+        "week-order": "Orden de las semanas",
+        "name-order": "Orden de los nombres",
+        "circuit-overseer-name": "Nombre del Superintendente de Circuito"
     }
 }

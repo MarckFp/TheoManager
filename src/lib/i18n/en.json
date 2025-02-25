@@ -15,6 +15,7 @@
         "audio-video": "Audio & video",
         "attendants": "Attendants",
         "appointment": "Appointment",
+        "congregation": "Congregation",
         "field-service-meetings": "Field Service Meetings",
         "field-service-groups": "Field Service Groups",
         "public-witnessing": "Public Witnessing",
@@ -40,9 +41,35 @@
         "loading": "Loading",
         "create": "Create",
         "join": "Join",
-        "all": "All"
+        "all": "All",
+        "copy": "Copy"
+    },
+    "weekdays": {
+        "monday": "Monday",
+        "tuesday": "Tuesday",
+        "wednesday": "Wednesday",
+        "thursday": "Thursday",
+        "friday": "Friday",
+        "saturday": "Saturday",
+        "sunday": "Sunday"
+    },
+    "months": {
+        "january": "January",
+        "febuary": "Febuary",
+        "march": "March",
+        "april": "April",
+        "may": "May",
+        "june": "June",
+        "july": "July",
+        "august": "August",
+        "september": "September",
+        "october": "October",
+        "november": "November",
+        "december": "December"
     },
     "person": {
+        "firstname": "Firstname",
+        "lastname": "Lastname",
         "name": "Name",
         "email": "Email",
         "phone": "Phone",
@@ -86,5 +113,20 @@
         "welcome": "Welcome",
         "create-join": "Create/Join a congregation",
         "create-join-title": "Create or Join a congregation"
+    },
+    "settings": {
+        "congregation-settings": "Congregation settings",
+        "user-settings": "User settings",
+        "congregation-name": "Congregation name",
+        "congregation-address": "Congregation address",
+        "congregation-id": "Congregation ID",
+        "congregation-city": "Congregation city",
+        "congregation-zipcode": "Congregation zipcode",
+        "congregation-country": "Congregation country",
+        "congregation-jw-code": "Congregation JW code",
+        "congregation-password": "Congregation password",
+        "week-order": "Week order",
+        "name-order": "Name order",
+        "circuit-overseer-name": "Circuit Overseer Name"
     }
 }
