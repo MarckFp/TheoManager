@@ -153,7 +153,7 @@
   class="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-full flex justify-center pb-4 sm:pb-8"
   id="welcome-steps"
 >
-  <ul class="steps">
+<!--  <ul class="steps">
     <li class={stage >= 1 ? "step step-primary" : "step"}>
       {$_("welcome.welcome")}
     </li>
@@ -163,7 +163,7 @@
     <li class={stage >= 3 ? "step step-primary" : "step"}>
       {$_("welcome.create-join")}
     </li>
-  </ul>
+  </ul> -->
 </div>
 
 <!-- Create Congregation -->
