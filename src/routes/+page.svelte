@@ -34,6 +34,7 @@
       jw_code: jwCode,
       password: congregationPassword,
     })
+    goto(`${base}/app`)
   }
 
   function join() {}
@@ -50,7 +51,7 @@
 
 <div class="hero min-h-screen relative flex flex-col" id="welcome-hero">
   <div
-    class="hero-content text-center max-w-lg flex-grow pb-16 sm:pb-24 md:pb-32"
+    class="hero-content text-center max-w-lg flex-grow pb-16"
   >
     <div class="max-w-lg">
       {#if stage === 1}
@@ -149,23 +150,6 @@
   </div>
 </div>
 
-<div
-  class="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-full flex justify-center pb-4 sm:pb-8"
-  id="welcome-steps"
->
-<!--  <ul class="steps">
-    <li class={stage >= 1 ? "step step-primary" : "step"}>
-      {$_("welcome.welcome")}
-    </li>
-    <li class={stage >= 2 ? "step step-primary" : "step"}>
-      {$_("welcome.features")}
-    </li>
-    <li class={stage >= 3 ? "step step-primary" : "step"}>
-      {$_("welcome.create-join")}
-    </li>
-  </ul> -->
-</div>
-
 <!-- Create Congregation -->
 <dialog id="congregation_create" class="modal modal-center sm:modal-middle">
   <div class="modal-box">
@@ -250,8 +234,8 @@
       bind:value={congregationPassword}
     />
 
-    <a class="btn btn-primary mt-2 w-full" href="{base}/app" onclick={create}
-      >{$_("nav.create")}</a
+    <button class="btn btn-primary mt-2 w-full" onclick={create}
+      >{$_("nav.create")}</button
     >
 
     <div class="modal-action">
@@ -290,7 +274,7 @@
       bind:value={joinPassword}
     />
 
-    <a class="btn btn-primary mt-2 w-full" href="{base}/app">{$_("nav.join")}</a
+    <button class="btn btn-primary mt-2 w-full">{$_("nav.join")}</button
     >
 
     <div class="modal-action">

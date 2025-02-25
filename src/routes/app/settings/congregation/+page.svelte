@@ -93,7 +93,7 @@
           value={localStorage.getItem("congregationID")}
           disabled
         />
-        <button class="btn btn-primary join-item" on:click={copyCongregationID}>
+        <button class="btn btn-primary join-item" onclick={copyCongregationID}>
           <Icon src={Clipboard} outline size="20" />
         </button>
       </div>
@@ -249,7 +249,7 @@
         bind:value={settings.circuit_overseer_name}
       />
 
-      <button class="btn btn-primary mt-4" on:click={saveCongregationConfig}
+      <button class="btn btn-primary mt-4" onclick={saveCongregationConfig}
         >{$_("nav.save")}</button
       >
     </fieldset>
@@ -261,7 +261,7 @@
 
       <button
         class="btn btn-error"
-        on:click={() =>
+        onclick={() =>
           (
             document.getElementById("delete_congregation") as HTMLDialogElement
           )?.showModal()}>{$_("nav.delete")}</button
@@ -274,7 +274,7 @@
   <div class="modal-box">
     <h3 class="text-lg font-bold">Hello!</h3>
     <p class="py-4">Are you sure?</p>
-    <button class="btn btn-error mt-2 w-full" on:click={deleteCong}
+    <button class="btn btn-error mt-2 w-full" onclick={deleteCong}
       >{$_("nav.delete")}</button
     >
     <div class="modal-action">

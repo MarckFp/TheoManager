@@ -37,7 +37,7 @@
       <option>Spanish</option>
     </select>
 
-    <button class="btn btn-primary mt-4" on:click={saveUserConfig}
+    <button class="btn btn-primary mt-4" onclick={saveUserConfig}
       >{$_("nav.save")}</button
     >
   </fieldset>

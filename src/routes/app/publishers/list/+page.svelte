@@ -373,7 +373,7 @@
 <!--{#if isMobile()}-->
 <button
   class="btn btn-circle float-btn btn-xl"
-  on:click={() =>
+  onclick={() =>
     (
       document.getElementById("create_publisher") as HTMLDialogElement
     )?.showModal()}
