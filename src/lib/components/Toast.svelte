@@ -24,9 +24,19 @@
     in:fade={{ duration: 300 }}
     out:fade={{ duration: 500 }}
   >
-    <div class={`alert alert-${$type}`}>
+  {#if $type === 'success'}
+    <div class="alert alert-success">
       <span>{$message}</span>
     </div>
+  {:else if $type === 'warning'}
+    <div class="alert alert-warning">
+      <span>{$message}</span>
+    </div>
+  {:else if $type === 'error'}
+    <div class="alert alert-error">
+      <span>{$message}</span>
+    </div>
+  {/if}
   </div>
 {/if}
 
