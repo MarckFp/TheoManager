@@ -245,7 +245,7 @@
         type="text"
         class="input w-full"
         id="overseer-name"
-        placeholder="Circuit Overseer Name"
+        placeholder={$_("settings.circuit-overseer-name")}
         bind:value={settings.circuit_overseer_name}
       />
 
