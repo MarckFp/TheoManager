@@ -1,4 +1,4 @@
-import Gun from "gun/gun"
+import Gun from "gun"
 import "gun/sea"
 //TODO: I think AXE is needed when trying to sync data between multiple peers
 //import 'gun/axe'
