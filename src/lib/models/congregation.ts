@@ -54,6 +54,29 @@ export async function createCongregation(congregationData: Congregation) {
   }
 }
 
+//JOIN
+export async function joinCongregation(congregationID: string) {
+  const congregation = gun.get("congregations").get(congregationID)
+
+  return new Promise<void>((resolve, reject) => {
+    congregation.once(async (data) => {
+      if (!data) {
+        reject(new Error("Congregation not found."))
+        return
+      }
+
+      try {
+        localStorage.setItem("congregationID", congregationID)
+
+        resolve()
+      } catch (error) {
+        console.error("Error joining congregation:", error)
+        reject(new Error("Failed to join congregation."))
+      }
+    })
+  })
+}
+
 //UPDATE
 export async function updateCongregation(congregationData: Congregation) {
   const congregationID = localStorage.getItem("congregationID")

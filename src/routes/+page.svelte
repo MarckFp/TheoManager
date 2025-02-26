@@ -11,7 +11,7 @@
   import { base } from "$app/paths"
   import { onMount } from "svelte"
   import { goto } from "$app/navigation"
-  import { createCongregation } from "$lib/models/congregation"
+  import { createCongregation, joinCongregation } from "$lib/models/congregation"
 
   let congregationAddress: string,
     congregationPassword: string,
@@ -37,7 +37,10 @@
     goto(`${base}/app`)
   }
 
-  function join() {}
+  function join() {
+    joinCongregation(joinCode)
+    goto(`${base}/app`)
+  }
 
   onMount(() => {
     const congregationID = localStorage.getItem("congregationID")
@@ -274,7 +277,7 @@
       bind:value={joinPassword}
     />
 
-    <button class="btn btn-primary mt-2 w-full">{$_("nav.join")}</button
+    <button class="btn btn-primary mt-2 w-full" onclick={join}>{$_("nav.join")}</button
     >
 
     <div class="modal-action">
