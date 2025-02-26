@@ -39,6 +39,7 @@ jobs:
       - name: Build 🔨
         shell: bash
         run: |
+          bun install
           ADAPTER='cloudflare'
           bun run build
 
