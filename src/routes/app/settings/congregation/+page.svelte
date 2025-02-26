@@ -1,6 +1,8 @@
 <script lang="ts">
   import { Icon, Clipboard } from "svelte-hero-icons"
   import { _ } from "svelte-i18n"
+  import { goto } from "$app/navigation"
+  import { base } from "$app/paths"
   import {
     deleteCongregation,
     getCongregation,
@@ -32,6 +34,7 @@
 
   async function deleteCong() {
     await deleteCongregation()
+    goto(`${base}`)
   }
 
   async function saveCongregationConfig() {
