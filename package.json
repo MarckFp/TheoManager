@@ -17,7 +17,7 @@
     "@tauri-apps/api": "^2.4.1",
     "@tauri-apps/plugin-opener": "^2.2.6",
     "@tauri-apps/plugin-updater": "~2.7.0",
-    "cally": "^0.8.0",
+    "cally": "^0.9.0",
     "gun": "^0.2020.1240",
     "svelte-i18n": "^4.0.1"
   },
